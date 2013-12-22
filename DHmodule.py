@@ -15,19 +15,20 @@ class dh_model:
 
   # Set the model's value
   def set(self,new_theta,new_a,new_d,new_alpha):
-     self.theta = new_theta
+     self.theta = new_theta * pi/180.0
      self.a = new_a
      self.d = new_d
-     self.alpha = new_alpha
-     self.rotx = np.eye(4)
-     self.rotz = np.eye(4)
-     self.trans = np.eye(4)
-     self._0Ti = np.eye(4)
+     self.alpha = new_alpha * pi/180.0
+
+     self.rotx = np.zeros(4)
+     self.rotz = np.zeros(4)
+     self.trans = np.zeros(4)
+     self._0Ti = np.zeros(4)
 
   # Calculate the transform matrix with this dh-model
   def applyDH(self):
     # Appli the model and calculate the change matrix
-    self._0Ti = np.mat(self.rotz*self.trans*self.rotx)
+    self._0Ti = np.mat(self.rotz)*np.mat(self.trans)*np.mat(self.rotx)
 
   def getPi(self,_0OT):
     self.apply(tmp)
@@ -48,8 +49,8 @@ class dh_model:
            [0               , 0                , 0                , 0] ]
     self.rotx = np.mat(tmp)
   def Trans(self):
-    tmp = [[0 , 0 , 0 , self.a ] ,
-           [0 , 0 , 0 , 0      ] ,
-           [0 , 0 , 0 , self.d ] ,
+    tmp = [[1 , 0 , 0 , self.a ] ,
+           [0 , 1 , 0 , 0      ] ,
+           [0 , 0 , 1 , self.d ] ,
            [0 , 0 , 0 , 0      ]]
     self.trans = np.mat(tmp)
