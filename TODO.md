@@ -1,9 +1,7 @@
 TODO
 ====
 
-* Design the new parts of lamp
-* Drill the bowl
-* Assemble the lamp
+* Design the part to fix the camera and the led
 * Implement Denahvit-Artenberg model
 * Implement Intelligence model
-* Extend AX12 cable
+* Complete wiki
