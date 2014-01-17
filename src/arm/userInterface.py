@@ -22,9 +22,6 @@ class userTerminal :
     while isRunning :
       try:
         cmd = command(raw_input('$ '))
-        print cmd.cmdName 
-        print cmd.cmdArg
- 
         if cmd.cmdName == "q":
           isRunning = False   
         elif cmd.cmdName == "setById" or cmd.cmdName == "sbi":
