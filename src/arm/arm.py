@@ -85,17 +85,19 @@ class MotorControl:
 
   def setAllMotors(self,values):
     for val in values:
-      index = self.idList.index(val[0])
-      if self.motors[index] != None:
-       self.motors[index].setAngle(val[1]) 
+      if val[0] in self.idList :
+        index = self.idList.index(val[0])
+        if self.motors[index] != None:
+          self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
     time.sleep(2)
 
   def setAllMotorsByName(self,values):
     for val in values:
-      index = self.nameList.index(val[0])
-      if self.motors[index] != None:
-       self.motors[index].setAngle(val[1]) 
+        if val[0] in self.nameList :
+            index = self.nameList.index(val[0])
+            if self.motors[index] != None:
+                self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
     time.sleep(2)
 
