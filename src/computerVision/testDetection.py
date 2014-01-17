@@ -9,5 +9,5 @@ while not exit :
 	faceStream.display()
 	key = cv2.waitKey(10)
 	#if q key have been press
-	if key == 1048689 : 
+	if key == ord('q'): 
 		exit = True
