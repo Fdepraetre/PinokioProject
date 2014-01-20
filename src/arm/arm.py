@@ -95,7 +95,7 @@ class MotorControl:
         if self.motors[index] != None:
           self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
-    time.sleep(2)
+    time.sleep(0.1)
 
   def setAllMotorsByName(self,values):
     for val in values:
@@ -104,7 +104,7 @@ class MotorControl:
             if self.motors[index] != None:
                 self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
-    time.sleep(2)
+    time.sleep(0.1)
 
   def readAllMotors(self):
     out = []
@@ -112,8 +112,26 @@ class MotorControl:
       if motor != None:
         motor.motor.read_all()
         out += [motor.motor.current_position]
+      else:
+        print "motor not connected"
     return out
 
+  def readMotorByName(self,values):
+     out = []
+     for val in values:
+      index = self.nameList.index(val[0])
+      if self.motors[index]!= None:
+        self.motors[index].motor.read_all()
+        if val == "bottom" :
+          out += [self.motors[index].motor.current_position/6.82]
+        else:
+          out += [self.motors[index].motor.current_position/3.41]
+      else:
+        print "Motor not connected"
+     return out
+
+  def moveHead(self, angleHead,angleNeck):
+    setAllMotorsByName([["head",angleHead],["top",angleNeck]])
 
 if __name__ == "__main__":
     motorSettings = settings.motorSettings()
@@ -122,23 +140,27 @@ if __name__ == "__main__":
     motorControler.setAllSpeed(100)
     plotter = plot.Ploting()
     initTime = time.time()
-
+    i = 0
+  
     while True: 
-      key = raw_input("Do you want to move or plot?" + "\n\r" + "\t - (p) plot \r\n \t - (m) move \r\n")
-      if key == 'm':
+#      key = raw_input("Do you want to move or plot?" + "\n\r" + "\t - (p) plot \r\n \t - (m) move \r\n")
+#      if key == 'm':
+       if i < 10:
         # First tests
-        motorControler.setAllMotorsByName([["bottom",220],["middle",230],["head",250],["top",150],["bowl",200]])
+        motorControler.setAllMotorsByName([["bottom",140],["middle",230],["head",250],["top",150],["bowl",200]])
         out = motorControler.readAllMotors()
         plotter.addNewVal(out,time.time()-initTime)
         # Second tests
-        motorControler.setAllMotorsByName([["bottom",200],["middle",160],["head",150],["top",100],["bowl",300]])
+        motorControler.setAllMotorsByName([["bottom",160],["middle",160],["head",150],["top",100],["bowl",300]])
         out = motorControler.readAllMotors()
         plotter.addNewVal(out,time.time() - initTime)
         # Third tests
-        motorControler.setAllMotorsByName([["bottom",180],["middle",160],["head",150],["top",200],["bowl",300]])
+        motorControler.setAllMotorsByName([["bottom",140],["middle",160],["head",150],["top",200],["bowl",300]])
         out = motorControler.readAllMotors()
         plotter.addNewVal(out,time.time() - initTime)
-      elif key == 'p':
+        i += 1
+#      elif key == 'p':
+       else:
         plotter.plot()
         break
 
