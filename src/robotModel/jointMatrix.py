@@ -5,7 +5,7 @@ import sympy as sp
 
 # Class for denavit-hartenberg model
 # This class calculate the transformation between two referentials
-class dh_model:
+class jointMatrix:
 
   # Initialise the denavit-Hartenberg Model
   def __init__(self):
