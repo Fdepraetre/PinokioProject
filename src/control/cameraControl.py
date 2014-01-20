@@ -2,6 +2,7 @@ import sys
 sys.path.insert(0,"../computerVision/")
 import FaceDetection
 import VideoStream
+import math
 
 class CameraControl:
     
@@ -14,27 +15,34 @@ class CameraControl:
     self.motorControler = motorControler
     self.faceStream = faceStream
 
-  def positionCamera(self,position):
+  def positionCamera(self,position,mode=0,distance = 50):
     """ Determine the changing on camera angle """
-
-    # Initialisation
     angleAddition = []
 
-    if position[0] < (self.centerX - self.precX):
-      angleAddition += [5]
-    elif position[0] > (self.centerX + self.precX) :
-      angleAddition += [-5]
-    else:
-      angleAddition += [0]
+    if mode == 0 :
+       # Initialisation
+    
+       if position[0] < (self.centerX - self.precX):
+         angleAddition += [1]
+       elif position[0] > (self.centerX + self.precX) :
+         angleAddition += [-1]
+       else:
+         angleAddition += [0]
+  
+       if position[1] < (self.centerY - self.precY):
+         angleAddition += [1]
+       elif position[1] > (self.centerY + self.precY) :
+         angleAddition += [-1]
+       else:
+         angleAddition += [0]
+  
+    elif mode == 1 :
+        distanceToFace = distance
 
-    if position[1] < (self.centerY - self.precY):
-      angleAddition += [5]
-    elif position[1] > (self.centerY + self.precY) :
-      angleAddition += [-5]
-    else:
-      angleAddition += [0]
-
+        angleAddition += [ -math.atan( (position[0] - self.centerX)/ distanceToFace)]
+        angleAddition += [ -math.atan( (position[1] - self.centerY)/ distanceToFace)]
     return angleAddition
+
 
   def readHead(self):
     """ Return the angle of the head """
@@ -48,8 +56,7 @@ class CameraControl:
   def updateControl(self):
     """ Update the head control """
     angle = self.readHead()
-    modAngle = []
     if len(self.faceStream.faceDetection.faces) > 0:
-      modAngle = self.positionCamera(self.faceStream.faceDetection.faces[0])
+      modAngle = self.positionCamera(self.faceStream.faceDetection.faces[0],1)
       self.moveHead([angle[0]+modAngle[0],angle[1]+modAngle[1]])
     
