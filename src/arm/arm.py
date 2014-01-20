@@ -93,7 +93,7 @@ class MotorControl:
         if self.motors[index] != None:
           self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
-    time.sleep(2)
+    time.sleep(0.1)
 
   def setAllMotorsByName(self,values):
     for val in values:
@@ -102,7 +102,7 @@ class MotorControl:
             if self.motors[index] != None:
                 self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
-    time.sleep(2)
+    time.sleep(0.1)
 
   def readAllMotors(self):
     out = []
@@ -110,8 +110,26 @@ class MotorControl:
       if motor != None:
         motor.motor.read_all()
         out += [motor.motor.current_position]
+      else:
+        print "motor not connected"
     return out
 
+  def readMotorByName(self,values):
+     out = []
+     for val in values:
+      index = self.nameList.index(val[0])
+      if self.motors[index]!= None:
+        self.motors[index].motor.read_all()
+        if val == "bottom" :
+          out += [self.motors[index].motor.current_position/6.82]
+        else:
+          out += [self.motors[index].motor.current_position/3.41]
+      else:
+        print "Motor not connected"
+     return out
+
+  def moveHead(self, angleHead,angleNeck):
+    setAllMotorsByName([["head",angleHead],["top",angleNeck]])
 
 if __name__ == "__main__":
     motorSettings = settings.motorSettings()
