@@ -1,9 +1,11 @@
+import sys
 import dynamixel
 import time
 import random
 import sys
 import optparse
 import plot
+sys.path.insert(0, "../settings/")
 import settings
 
 class SelfMotor:

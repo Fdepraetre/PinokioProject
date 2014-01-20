@@ -20,7 +20,7 @@ def validateInput(userInput, rangeMin, rangeMax):
 
 class motorSettings:
     def __init__(self, path = None):
-        self.settingPath = "settings.yaml"
+        self.settingPath = "../settings/settings.yaml"
         if path != None :
             self.settingPath = path
         with open(self.settingPath, 'r') as fh:

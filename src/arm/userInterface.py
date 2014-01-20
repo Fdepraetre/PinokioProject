@@ -1,6 +1,8 @@
-import arm
+import sys
 import readline
+sys.path.insert(0, "../settings/")
 import settings
+import arm
 
 class command :
   def __init__(self, cmd):
