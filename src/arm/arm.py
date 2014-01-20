@@ -26,7 +26,10 @@ class SelfMotor:
 
   def setAngle(self,angle):
     if angle > self.maxAngle or angle < self.minAngle:
-        print "Angle out of range"
+      print "Angle out of range"
+      print "motor : " + str(self.name)
+      print "value : " + str(angle)
+      print "range : [" + str(self.maxAngle) + "," + str(self.minAngle) + "]"
     if self.name == "bottom":
       fact = 6.82
     else:
@@ -85,17 +88,19 @@ class MotorControl:
 
   def setAllMotors(self,values):
     for val in values:
-      index = self.idList.index(val[0])
-      if self.motors[index] != None:
-       self.motors[index].setAngle(val[1]) 
+      if val[0] in self.idList :
+        index = self.idList.index(val[0])
+        if self.motors[index] != None:
+          self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
     time.sleep(2)
 
   def setAllMotorsByName(self,values):
     for val in values:
-      index = self.nameList.index(val[0])
-      if self.motors[index] != None:
-       self.motors[index].setAngle(val[1]) 
+        if val[0] in self.nameList :
+            index = self.nameList.index(val[0])
+            if self.motors[index] != None:
+                self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
     time.sleep(2)
 
