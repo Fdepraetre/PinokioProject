@@ -1,11 +1,7 @@
 import sys
-sys.path.insert(0,"../arm/")
-import arm
 sys.path.insert(0,"../computerVision/")
 import FaceDetection
 import VideoStream
-import settings
-import cv2
 
 class CameraControl:
     
@@ -18,34 +14,27 @@ class CameraControl:
     self.motorControler = motorControler
     self.faceStream = faceStream
 
-  def positionCamera(self,position,mode=0,distance = 50):
+  def positionCamera(self,position):
     """ Determine the changing on camera angle """
-    
-     angleAddition = []
 
-     if mode == 0 :
-        # Initialisation
-    
-       if position[0] < (self.centerX - self.precX):
-         angleAddition += [1]
-       elif position[0] > (self.centerX + self.precX) :
-         angleAddition += [-1]
-       else:
-         angleAddition += [0]
-  
-       if position[1] < (self.centerY - self.precY):
-         angleAddition += [1]
-       elif position[1] > (self.centerY + self.precY) :
-         angleAddition += [-1]
-       else:
-         angleAddition += [0]
-  
-     elif mode == 1 :
-        distanceToFace = distance
+    # Initialisation
+    angleAddition = []
 
-        angleAddition += [ math.atan( (position[0] - self.centerX)/ distanceToFace)]
-        angleAddition += [ math.atan( (position[1] - self.centerY)/ distanceToFace)]
-      return angleAddition
+    if position[0] < (self.centerX - self.precX):
+      angleAddition += [5]
+    elif position[0] > (self.centerX + self.precX) :
+      angleAddition += [-5]
+    else:
+      angleAddition += [0]
+
+    if position[1] < (self.centerY - self.precY):
+      angleAddition += [5]
+    elif position[1] > (self.centerY + self.precY) :
+      angleAddition += [-5]
+    else:
+      angleAddition += [0]
+
+    return angleAddition
 
   def readHead(self):
     """ Return the angle of the head """
@@ -62,5 +51,4 @@ class CameraControl:
     if len(self.faceStream.faceDetection.faces) > 0:
       modAngle = self.positionCamera(faceStream.faceDetection.faces[0])
     moveHead([[angle[0]+modAngle[0]],[angle[1]+modAngle[1]]])
-   
-   def 
+    

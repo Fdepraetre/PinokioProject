@@ -24,8 +24,8 @@ class FaceDetection:
 
 
 class FaceStream(VideoStream.VideoStream):
-	def __init__(self):
-		VideoStream.VideoStream.__init__(self)
+	def __init__(self, camId = 0, resWidth = 320, resHeight = 240):
+		VideoStream.VideoStream.__init__(self,camId,resWidth,resHeight)
 		self.faceDetection = FaceDetection()
 
 	def nextFrame(self):

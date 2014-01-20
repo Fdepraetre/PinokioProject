@@ -1,12 +1,14 @@
+import sys
 import dynamixel
 import time
 import random
 import sys
 import optparse
 import plot
+sys.path.insert(0, "../settings/")
 import settings
 
-class SelfMotor:
+class Motor:
 
   def __init__(self,motor,name,minAngle = 0,maxAngle = 300 ):
     self.motor = motor
@@ -71,7 +73,7 @@ class MotorControl:
     for conf in self.motorConfig:
       if conf[0] in [motor.id for motor in self.net.get_dynamixels()]:
         print "motor " + str(conf[3]) + " has been found"
-        self.motors += [SelfMotor(self.net[conf[0]],conf[3],conf[1],conf[2])]
+        self.motors += [Motor(self.net[conf[0]],conf[3],conf[1],conf[2])]
       else:
         print "motor " + str(conf[3]) + " has not been found"
         self.motors += [None]
@@ -131,34 +133,4 @@ class MotorControl:
   def moveHead(self, angleHead,angleNeck):
     setAllMotorsByName([["head",angleHead],["top",angleNeck]])
 
-if __name__ == "__main__":
-    motorSettings = settings.motorSettings()
-
-    motorControler = MotorControl(motorSettings.get())
-    motorControler.setAllSpeed(100)
-    plotter = plot.Ploting()
-    initTime = time.time()
-    i = 0
-  
-    while True: 
-#      key = raw_input("Do you want to move or plot?" + "\n\r" + "\t - (p) plot \r\n \t - (m) move \r\n")
-#      if key == 'm':
-       if i < 10:
-        # First tests
-        motorControler.setAllMotorsByName([["bottom",140],["middle",230],["head",250],["top",150],["bowl",200]])
-        out = motorControler.readAllMotors()
-        plotter.addNewVal(out,time.time()-initTime)
-        # Second tests
-        motorControler.setAllMotorsByName([["bottom",160],["middle",160],["head",150],["top",100],["bowl",300]])
-        out = motorControler.readAllMotors()
-        plotter.addNewVal(out,time.time() - initTime)
-        # Third tests
-        motorControler.setAllMotorsByName([["bottom",140],["middle",160],["head",150],["top",200],["bowl",300]])
-        out = motorControler.readAllMotors()
-        plotter.addNewVal(out,time.time() - initTime)
-        i += 1
-#      elif key == 'p':
-       else:
-        plotter.plot()
-        break
 

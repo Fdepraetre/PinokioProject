@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "../computerVision/")
 import FaceDetection
 import VideoStream
 import cv2
