@@ -2,8 +2,8 @@ import sys
 import readline
 sys.path.insert(0, "../settings/")
 import settings
-sys.path.insert(0, "../arm/")
-import arm
+sys.path.insert(0, "../motorControl/")
+import motorControl
 
 class command :
   def __init__(self, cmd):
@@ -18,7 +18,7 @@ class command :
 class commandLineInterface :
   def __init__(self,settingPath=None,debug=False):
     motorSettings = settings.motorSettings(settingPath)
-    self.motorControl = arm.MotorControl(motorSettings.get())       
+    self.motorControl = motorControl.MotorControl(motorSettings.get())       
 
   def start(self):
     isRunning = True

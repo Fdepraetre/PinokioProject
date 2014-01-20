@@ -1,6 +1,6 @@
 import sys
-sys.path.insert(0,"../arm/")
-import arm
+sys.path.insert(0,"../motorControl/")
+import motorControl
 sys.path.insert(0,"../computerVision/")
 import FaceDetection
 import VideoStream
@@ -40,7 +40,7 @@ if(__name__)=="__main__":
 
   motorSettings = settings.motorSettings()
   
-  motorControler = arm.MotorControl(motorSettings.get())
+  motorControler = motorControl.MotorControl(motorSettings.get())
   motorControler.setAllSpeed(100)
   
   camera = Camera(10,10)
