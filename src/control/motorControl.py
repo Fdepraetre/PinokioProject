@@ -7,6 +7,7 @@ import optparse
 import plot
 sys.path.insert(0, "../settings/")
 import settings
+import math
 
 class Motor:
 
@@ -36,7 +37,7 @@ class Motor:
       fact = 6.82
     else:
       fact = 3.41
-    self.motor.goal_position =int(fact * angle )
+    self.motor.goal_position = int(math.floor(fact * angle))
 
   def setSpeed(self,speed):
        self.motor.moving_speed = speed
@@ -131,6 +132,8 @@ class MotorControl:
      return out
 
   def moveHead(self, angleHead,angleNeck):
+    print angleHead
+    print angleNeck
     setAllMotorsByName([["head",angleHead],["top",angleNeck]])
 
 

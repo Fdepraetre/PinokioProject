@@ -42,13 +42,14 @@ class CameraControl:
     return angle
  
   def moveHead(self,angle):
-     """ Move head at angle """ 
-     self.motorControler.setAllMotorsByName([["head",angle[0]],["top",angle[1]]])
+    """ Move head at angle """ 
+    self.motorControler.setAllMotorsByName([["head",angle[0]],["top",angle[1]]])
 
   def updateControl(self):
     """ Update the head control """
     angle = self.readHead()
+    modAngle = []
     if len(self.faceStream.faceDetection.faces) > 0:
-      modAngle = self.positionCamera(faceStream.faceDetection.faces[0])
-    moveHead([[angle[0]+modAngle[0]],[angle[1]+modAngle[1]]])
+      modAngle = self.positionCamera(self.faceStream.faceDetection.faces[0])
+      self.moveHead([angle[0]+modAngle[0],angle[1]+modAngle[1]])
     
