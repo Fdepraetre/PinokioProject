@@ -15,7 +15,7 @@ class CameraControl:
     self.motorControler = motorControler
     self.faceStream = faceStream
 
-  def positionCamera(self,position,mode=0,distance = 50):
+  def positionCamera(self,position,mode=0,distance = 5):
     """ Determine the changing on camera angle """
     angleAddition = []
 
@@ -23,24 +23,28 @@ class CameraControl:
        # Initialisation
     
        if position[0] < (self.centerX - self.precX):
-         angleAddition += [1]
+         angleAddition += [2]
        elif position[0] > (self.centerX + self.precX) :
-         angleAddition += [-1]
+         angleAddition += [-2]
        else:
          angleAddition += [0]
   
        if position[1] < (self.centerY - self.precY):
-         angleAddition += [1]
+         angleAddition += [2]
        elif position[1] > (self.centerY + self.precY) :
-         angleAddition += [-1]
+         angleAddition += [-2]
        else:
          angleAddition += [0]
   
     elif mode == 1 :
         distanceToFace = distance
 
-        angleAddition += [ -math.atan( (position[0] - self.centerX)/ distanceToFace)]
-        angleAddition += [ -math.atan( (position[1] - self.centerY)/ distanceToFace)]
+        print position
+        #angleAddition +=
+        #angleAddition += 
+        angleAddition += [ -(180/math.pi)*math.atan2( (position[0] - self.centerX), distanceToFace)]
+        angleAddition += [ -(180/math.pi)*math.atan2( (position[1] - self.centerY), distanceToFace)]
+        print angleAddition
     return angleAddition
 
 
@@ -58,5 +62,5 @@ class CameraControl:
     angle = self.readHead()
     if len(self.faceStream.faceDetection.faces) > 0:
       modAngle = self.positionCamera(self.faceStream.faceDetection.faces[0],1)
-      self.moveHead([angle[0]+modAngle[0],angle[1]+modAngle[1]])
+      #self.moveHead([angle[0]+modAngle[0],angle[1]+modAngle[1]])
     

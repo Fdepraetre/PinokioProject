@@ -2,7 +2,7 @@ import sys
 import readline
 sys.path.insert(0, "../settings/")
 import settings
-sys.path.insert(0, "../motorControl/")
+sys.path.insert(0, "../control/")
 import motorControl
 
 class command :

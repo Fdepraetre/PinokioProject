@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0,"../motorControl/")
+sys.path.insert(0,"../control/")
 import motorControl
 import plot
 sys.path.insert(0, "../settings/")
@@ -30,9 +30,9 @@ while not exit:
     elif cmd == 'p':
       plotter.plot()
 
-  moveAndPlot(motorControler, plotter, [["bottom",140],["middle",230],["head",250],["top",150],["bowl",200]])
+  moveAndPlot(motorControler, plotter, [["bottom",100],["middle",230],["head",250],["top",150],["bowl",200]])
   time.sleep(1)
   moveAndPlot(motorControler, plotter, [["bottom",160],["middle",160],["head",150],["top",100],["bowl",300]])
   time.sleep(1)
-  moveAndPlot(motorControler, plotter, [["bottom",140],["middle",160],["head",150],["top",200],["bowl",300]])
+  moveAndPlot(motorControler, plotter, [["bottom",100],["middle",160],["head",150],["top",200],["bowl",300]])
   time.sleep(1)

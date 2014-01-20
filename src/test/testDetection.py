@@ -4,7 +4,7 @@ import FaceDetection
 import VideoStream
 import cv2
 
-faceStream = FaceDetection.FaceStream()
+faceStream = FaceDetection.FaceStream(1)
 exit = False
 print faceStream.getRes()
 while not exit :
