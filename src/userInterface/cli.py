@@ -2,6 +2,7 @@ import sys
 import readline
 sys.path.insert(0, "../settings/")
 import settings
+sys.path.insert(0, "../arm/")
 import arm
 
 class command :
@@ -14,7 +15,7 @@ class command :
       pair = arg.split('=')
       self.cmdArg += [[pair[0],int(pair[1])]]
 
-class userTerminal :
+class commandLineInterface :
   def __init__(self,settingPath=None,debug=False):
     motorSettings = settings.motorSettings(settingPath)
     self.motorControl = arm.MotorControl(motorSettings.get())       
@@ -36,6 +37,3 @@ class userTerminal :
         print("")
         isRunning = False
             
-if __name__ == "__main__":
-  ui = userTerminal()
-  ui.start()

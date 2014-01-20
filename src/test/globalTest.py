@@ -4,6 +4,7 @@ import arm
 sys.path.insert(0,"../computerVision/")
 import FaceDetection
 import VideoStream
+sys.path.insert(0,"../settings/")
 import settings
 import cv2
 
