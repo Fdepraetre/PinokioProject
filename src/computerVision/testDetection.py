@@ -4,6 +4,7 @@ import cv2
 
 faceStream = FaceDetection.FaceStream()
 exit = False
+print faceStream.getRes()
 while not exit :
 	frame =	faceStream.nextFrame()
 	faceStream.display()

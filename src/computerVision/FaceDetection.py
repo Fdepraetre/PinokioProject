@@ -4,8 +4,8 @@ import cv2
 import cv
 
 class FaceDetection:
-	def __init__(self):
-		self.face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+	def __init__(self, path='../xml/haarcascade_frontalface_default.xml'):
+		self.face_cascade = cv2.CascadeClassifier(path)
 		self.faces = []
 
 	def display(self,frame):
