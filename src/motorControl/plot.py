@@ -29,7 +29,7 @@ class Ploting:
     pl.title('Plot Different articulations angles')
     pl.xlabel('Plot by sequence')
     pl.ylabel('Angle in tick motor')
-    pl.legend([plot1,plot2,plot3,plot4,plot5],('q1','q2','q3','q4','q5'), 'best' , numpoints=1)
+    pl.legend([self.plot1,self.plot2,self.plot3,self.plot4,self.plot5],('q1','q2','q3','q4','q5'), 'best' , numpoints=1)
     pl.show()
 
   def update(self):

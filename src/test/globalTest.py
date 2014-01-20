@@ -48,7 +48,7 @@ if(__name__)=="__main__":
   angle = []
   modAngle = []
    
-  faceStream = FaceDetection.FaceStream()
+  faceStream = FaceDetection.FaceStream(1)
   exit = False
   while not exit:
    frame = faceStream.nextFrame()

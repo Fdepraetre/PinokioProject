@@ -2,8 +2,8 @@ import cv2
 import cv
 
 class VideoStream:
-  def __init__(self, resWidth = 320, resHeight = 240):
-    self.capture = cv2.VideoCapture(0)  
+  def __init__(self, camId = 0, resWidth = 320, resHeight = 240):
+    self.capture = cv2.VideoCapture(camId)  
     self.capture.set(cv.CV_CAP_PROP_FRAME_WIDTH, resWidth)  
     self.capture.set(cv.CV_CAP_PROP_FRAME_HEIGHT, resHeight)
     self.frame = []
