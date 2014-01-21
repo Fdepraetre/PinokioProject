@@ -37,7 +37,7 @@ class Motor:
       fact = 6.82
     else:
       fact = 3.41
-    self.motor.goal_position = int(math.floor(fact * angle))
+    self.motor.goal_position = int(fact * angle)
 
   def setSpeed(self,speed):
        self.motor.moving_speed = speed
@@ -47,7 +47,7 @@ class Motor:
 
   def readMotorPosition(self):
       self.motor.read_all()
-      time.sleep(0.01)
+      time.sleep(0.1)
       return self.motor.current_position
 
 
