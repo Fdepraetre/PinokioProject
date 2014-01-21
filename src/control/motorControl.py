@@ -131,9 +131,3 @@ class MotorControl:
         print "Motor not connected"
      return out
 
-  def moveHead(self, angleHead,angleNeck):
-    print angleHead
-    print angleNeck
-    setAllMotorsByName([["head",angleHead],["top",angleNeck]])
-
-

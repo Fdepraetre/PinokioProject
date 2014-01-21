@@ -14,7 +14,8 @@ class VideoStream:
 
   def nextFrame(self):
     """ Read the next frame from the video capture """
-    ret, self.frame = self.capture.read()
+    for i in range(5):
+      ret, self.frame = self.capture.read()
   
   def display(self):
     """ Display current frame """ 

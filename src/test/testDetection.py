@@ -10,7 +10,7 @@ print faceStream.getRes()
 while not exit :
 	frame =	faceStream.nextFrame()
 	faceStream.display()
-	key = cv2.waitKey(10)
+	key = cv2.waitKey()
 	#if q key have been press
 	if key == ord('q'): 
 		exit = True

@@ -12,10 +12,13 @@ import cv2
 motorSettings = settings.motorSettings()
 
 motorControler = motorControl.MotorControl(motorSettings.get())
-motorControler.setAllSpeed(100)
+motorControler.setAllSpeed(10)
 faceStream = FaceDetection.FaceStream(1)
 
-camera = cameraControl.CameraControl(motorControler,faceStream,10,10)
+precision = 0.1
+res = [360,240]
+apertureAngle = [50.,30.]
+camera = cameraControl.CameraControl(motorControler, faceStream, precision, res, apertureAngle)
 
 angle = []
 modAngle = []
@@ -26,5 +29,5 @@ while not exit:
   faceStream.display()
   camera.updateControl()
   key = cv2.waitKey(10)
-  if key == 'q':
+  if key == ord('q'):
     exit = True 

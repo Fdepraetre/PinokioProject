@@ -4,47 +4,38 @@ import FaceDetection
 import VideoStream
 import math
 
+ApertureAngle = [50.,30.]
+
 class CameraControl:
     
-  def __init__(self,motorControler,faceStream,precX,precY,centerX=160,centerY=120):
+  def __init__(self, motorControler, faceStream, precision, res, apertureAngle):
+    self.p = 1 #0.25
 
-    self.precX = precX
-    self.precY = precY
-    self.centerX = centerX
-    self.centerY = centerY
+    assert len(res) == 2, 'res have to be of size 2'
+    assert len(apertureAngle) == 2, 'apertureAngle have to be of size 2'
+
+    self.precision = [precision * res[0], precision * res[1]]
+    self.res = res
+    self.apertureAngle = apertureAngle
+
     self.motorControler = motorControler
     self.faceStream = faceStream
 
-  def positionCamera(self,position,mode=0,distance = 5):
+  def positionCamera(self, position):
     """ Determine the changing on camera angle """
+    # Initialisation
     angleAddition = []
-
-    if mode == 0 :
-       # Initialisation
     
-       if position[0] < (self.centerX - self.precX):
-         angleAddition += [2]
-       elif position[0] > (self.centerX + self.precX) :
-         angleAddition += [-2]
-       else:
-         angleAddition += [0]
-  
-       if position[1] < (self.centerY - self.precY):
-         angleAddition += [2]
-       elif position[1] > (self.centerY + self.precY) :
-         angleAddition += [-2]
-       else:
-         angleAddition += [0]
-  
-    elif mode == 1 :
-        distanceToFace = distance
-
-        print position
-        #angleAddition +=
-        #angleAddition += 
-        angleAddition += [ -(180/math.pi)*math.atan2( (position[0] - self.centerX), distanceToFace)]
-        angleAddition += [ -(180/math.pi)*math.atan2( (position[1] - self.centerY), distanceToFace)]
-        print angleAddition
+    print "___"
+    for i in range(len(position)):
+      if self.precision[i] < (position[i] - self.res[i]/2) :
+        angleAddition += [-(self.apertureAngle[i] / self.res[i]) * (position[i] - self.res[i]/2) * self.p]
+      else:
+        angleAddition += [0]
+      print ""
+      print "Position :" + str(position[i] - self.res[i]/2)
+      print "Angle :" + str(angleAddition[i])
+    print "___"
     return angleAddition
 
 
@@ -61,6 +52,6 @@ class CameraControl:
     """ Update the head control """
     angle = self.readHead()
     if len(self.faceStream.faceDetection.faces) > 0:
-      modAngle = self.positionCamera(self.faceStream.faceDetection.faces[0],1)
-      #self.moveHead([angle[0]+modAngle[0],angle[1]+modAngle[1]])
+      modAngle = self.positionCamera(self.faceStream.getFacePosition())
+      self.moveHead([angle[0]+modAngle[0],angle[1]+modAngle[1]])
     
