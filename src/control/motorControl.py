@@ -89,7 +89,7 @@ class MotorControl:
          motor.setSpeed(speed)
          motor.setSynchronize(synchronized)
 
-  def setAllMotors(self,values):
+  def setMotorsById(self,values):
     for val in values:
       if val[0] in self.idList :
         index = self.idList.index(val[0])
@@ -98,7 +98,7 @@ class MotorControl:
     self.net.synchronize()
     time.sleep(0.1)
 
-  def setAllMotorsByName(self,values):
+  def setMotorsByName(self,values):
     for val in values:
         if val[0] in self.nameList :
             index = self.nameList.index(val[0])
