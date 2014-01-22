@@ -32,7 +32,7 @@ class TrajectoryController:
     self.A = 2 / (self.timef * self.timef)
     self.B = 4 / self.timef 
 
-  def update(self,position):
+  def update(self):
 
     currentTime = time.time() - self.timeInit
 
@@ -69,9 +69,9 @@ if (__name__) =='__main__' :
   plotter = trajPlot.PlotTraj()
   plotter2 = trajPlot.PlotTraj()
   pos = 0
-  [acc,speed,pos] = trajectory.update(pos)
+  [acc,speed,pos] = trajectory.update()
   while  (time.time()-timeInit) < trajectory.timef:
-    [acc,speed,pos] = trajectory.update(trajectory.position)
+    [acc,speed,pos] = trajectory.update()
     print "update"
     print pos
     print trajectory.position

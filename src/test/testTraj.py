@@ -22,5 +22,5 @@ trajectoryController.set(valMotor,[40,150,20])
 while time.time()- trajectoryController.timeInit < trajectoryController.timef :
   valMotor = motorControler.readMotorByName([["head"],["top"],["bowl"]])
   motorControler.setMotorsByName([["head",trajectoryController.position[0]],["top",trajectoryController.position[1]],["bowl",trajectoryController.position[2]]])
-  trajectoryControler.update(trajectoryController.position)
+  trajectoryControler.update()
 
