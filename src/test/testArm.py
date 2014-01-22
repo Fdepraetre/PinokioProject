@@ -9,7 +9,7 @@ import cv2
 import select
 
 def moveAndPlot(motorControler, plotter, values):
-  motorControler.setAllMotorsByName(values)
+  motorControler.setMotorsByName(values)
   out = motorControler.readAllMotors()
   plotter.addNewVal(out,time.time()-initTime)
 
