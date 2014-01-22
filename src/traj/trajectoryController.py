@@ -54,9 +54,13 @@ class TrajectoryController:
     self.position += self.initPoint
     self.speed = speed
 
-    return acc,speed,pos
+    return self.isEnded()
 
-
+  def isEnded(self):
+    if time.time() - self.timeInit > self.timef:
+        return True
+    else :
+        return False
 
 
 if (__name__) =='__main__' :

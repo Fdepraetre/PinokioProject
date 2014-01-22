@@ -9,18 +9,31 @@ import time
 import cv2
 import select
 
+initPosition = [40,150,20]
+motorName = ["head","top","bowl"]
+finalPosition = [140,250,120]
+
+def valueList(name,position):
+  values = []
+  for i in range(len(name)):
+    values += [[name[i],position[i]]]
+  return values
 
 trajectoryController = trajectoryController.TrajectoryController(5,2)
 
 motorSettings = settings.MotorSettings()
 motorControler = motorControl.MotorControl(motorSettings.get())
-motorControler.setAllSpeed(100)
-valMotor = motorControler.readMotorByName([["head"],["top"],["bowl"]])
 
+#Go to initial position
+motorControler.setMotorsByName(valueList(motorName,initPosition))
+time.sleep(5)
 
-trajectoryController.set(valMotor,[40,150,20])
-while time.time()- trajectoryController.timeInit < trajectoryController.timef :
-  valMotor = motorControler.readMotorByName([["head"],["top"],["bowl"]])
-  motorControler.setMotorsByName([["head",trajectoryController.position[0]],["top",trajectoryController.position[1]],["bowl",trajectoryController.position[2]]])
-  trajectoryControler.update()
+trajectoryController.set(initPosition,finalPosition)
+while not trajectoryController.update():
+  valMotor = motorControler.readMotorByName(motorName)
+  motorControler.setAllSpeed(trajectoryController.speed)
+  motorControler.setMotorsByName(valueList(motorName,trajectoryController.position))
+  print ""
+  print "Trajectory : " + str(valMotor)
+  print "Position : " + str(trajectoryController.position)
 

@@ -120,7 +120,7 @@ class MotorControl:
   def readMotorByName(self,values):
      out = []
      for val in values:
-      index = self.nameList.index(val[0])
+      index = self.nameList.index(val)
       if self.motors[index]!= None:
         self.motors[index].motor.read_all()
         if val == "bottom" :
