@@ -1,39 +1,44 @@
-class Robot:
+import math
+import numpy as np
+import sympy as sp
+import sys
+import trHomogene
+sys.path.insert(0,"../settings/")
+import settings
 
+class MGD:
   def __init__(self):
-     self.dh   = []
-     self._0Ti = np.zeros(4)
-     self._0OT = np.zeros(3)
-
-  def setModel(self,dh_model):
-    for dh in dh_model:
-      self.dh += dh
-
-  def ComputeModel(self):
-    for dh in self.dh:
-      self._OTk *= dh._0Ti
-      
-  def getPi(self):
-    tmp = [[self._0Ti[0,3]],[self._0Ti[1,3]],[self._0Ti[2,3]]]
-    self._0OT = np.mat(tmp)
-    return self._0OT
-   
-
-  def ComputeJOT(q,OT,n):
-    [row,col] = OT.shape
-    i = 0
-    JOT = np.zeros((3,2))
-    for j in range(len(q)):
-        for i in range(row):
-          JOT[i,j] = sp.diff(OT[i,0],q[j])
+    self._0Tf = None
+    pass
   
-    return JOT
+  def getPositionEffector(self):
+    pass
 
-#def Compute_a_qd(JOT):
-#  [row,col] = JOT.shape
-#
-#  try:
-#     row == col
-#  except:
-#    print( "La matrice JOT n'est pas inversible")
- 
+  def getTransMatrix(self):
+    return self._0Tf
+
+class lampMGD(MGD):
+  def __init__(self):
+    modelSettings = settings.ModelSettings().get()
+
+    theta1 = sp.symbols('theta1')
+    theta2 = sp.symbols('theta2')
+    theta3 = sp.symbols('theta3')
+    theta4 = sp.symbols('theta4')
+    theta5 = sp.symbols('theta5')
+
+    d1     = modelSettings['d1']
+    alpha1 = math.radians(-90)
+    a2     = modelSettings['a2']
+    a3     = modelSettings['a3']
+    alpha4 = math.radians(-90)
+
+
+    self._0T1 = trHomogene.dhMatrix(theta1 , 0  , d1 , alpha1) 
+    self._1T2 = trHomogene.dhMatrix(theta2 , a2 , 0  , 0) 
+    self._2T3 = trHomogene.dhMatrix(theta3 , a3 , 0  , 0) 
+    self._3T4 = trHomogene.dhMatrix(theta4 , 0  , 0  , alpha4) 
+    self._4Tf = trHomogene.dhMatrix(theta5 , 0  , 0  , 0) 
+
+    self._0Tf = self._0T1 * self._1T2 * self._2T3 * self._3T4 * self._4Tf 
+

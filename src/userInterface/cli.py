@@ -17,7 +17,7 @@ class command :
 
 class commandLineInterface :
   def __init__(self,settingPath=None,debug=False):
-    motorSettings = settings.motorSettings(settingPath)
+    motorSettings = settings.MotorSettings(settingPath)
     self.motorControl = motorControl.MotorControl(motorSettings.get())       
 
   def start(self):

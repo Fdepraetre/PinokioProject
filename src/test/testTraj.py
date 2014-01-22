@@ -12,7 +12,7 @@ import select
 
 trajectoryController = trajectoryController.TrajectoryController(5,2)
 
-motorSettings = settings.motorSettings()
+motorSettings = settings.MotorSettings()
 motorControler = motorControl.MotorControl(motorSettings.get())
 motorControler.setAllSpeed(100)
 valMotor = motorControler.readMotorByName([["head"],["top"],["bowl"]])
