@@ -14,7 +14,7 @@ def moveAndPlot(motorControler, plotter, values):
   plotter.addNewVal(out,time.time()-initTime)
 
 
-motorSettings = settings.motorSettings()
+motorSettings = settings.MotorSettings()
 
 motorControler = motorControl.MotorControl(motorSettings.get())
 motorControler.setAllSpeed(100)

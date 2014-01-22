@@ -9,7 +9,7 @@ sys.path.insert(0,"../settings/")
 import settings
 import cv2
 
-motorSettings = settings.motorSettings()
+motorSettings = settings.MotorSettings()
 
 motorControler = motorControl.MotorControl(motorSettings.get())
 motorControler.setAllSpeed(10)
