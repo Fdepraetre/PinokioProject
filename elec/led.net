@@ -1,0 +1,152 @@
+# EESchema Netlist Version 1.1 created  mer. 22 janv. 2014 11:04:05 CET
+(
+ ( /52DF8F93 $noname  P2 CONN_2 {Lib=CONN_2}
+  (    1 GND )
+  (    2 +12V )
+ )
+ ( /52DF8F81 $noname  P1 CONN_4 {Lib=CONN_4}
+  (    1 GND )
+  (    2 /Pin_9 )
+  (    3 /Pin_10 )
+  (    4 /Pin_11 )
+ )
+ ( /52DF8F71 $noname  P3 CONN_4 {Lib=CONN_4}
+  (    1 /Blue )
+  (    2 /Green )
+  (    3 /Red )
+  (    4 +12V )
+ )
+ ( /52DF8EF2 $noname  R5 R {Lib=R}
+  (    1 /Pin_11 )
+  (    2 N-000005 )
+ )
+ ( /52DF8EED $noname  R3 R {Lib=R}
+  (    1 /Pin_10 )
+  (    2 N-000011 )
+ )
+ ( /52DF8EE0 $noname  R1 R {Lib=R}
+  (    1 /Pin_9 )
+  (    2 N-000010 )
+ )
+ ( /52DF8EDE $noname  R6 R {Lib=R}
+  (    1 /Blue )
+  (    2 N-000008 )
+ )
+ ( /52DF8ED9 $noname  R4 R {Lib=R}
+  (    1 /Green )
+  (    2 N-000007 )
+ )
+ ( /52DF8ED6 $noname  R2 R {Lib=R}
+  (    1 /Red )
+  (    2 N-000006 )
+ )
+ ( /52DF8EAB $noname  Q3 NPN {Lib=NPN}
+  (    1 N-000005 )
+  (    2 GND )
+  (    3 N-000008 )
+ )
+ ( /52DF8EA9 $noname  Q2 NPN {Lib=NPN}
+  (    1 N-000011 )
+  (    2 GND )
+  (    3 N-000007 )
+ )
+ ( /52DF8EA3 $noname  Q1 NPN {Lib=NPN}
+  (    1 N-000010 )
+  (    2 GND )
+  (    3 N-000006 )
+ )
+)
+*
+{ Allowed footprints by component:
+$component R5
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$endfootprintlist
+}
+{ Pin List by Nets
+Net 1 "/Red" "Red"
+ R2 1
+ P3 3
+Net 2 "/Pin 11" "Pin 11"
+ R5 1
+ P1 4
+Net 3 "+12V" "+12V"
+ P3 4
+ P2 2
+Net 4 "GND" "GND"
+ Q3 2
+ P1 1
+ P2 1
+ Q1 2
+ Q2 2
+Net 5 "" ""
+ R5 2
+ Q3 1
+Net 6 "" ""
+ R2 2
+ Q1 3
+Net 7 "" ""
+ R4 2
+ Q2 3
+Net 8 "" ""
+ Q3 3
+ R6 2
+Net 9 "/Blue" "Blue"
+ R6 1
+ P3 1
+Net 10 "" ""
+ R1 2
+ Q1 1
+Net 11 "" ""
+ R3 2
+ Q2 1
+Net 12 "/Pin 9" "Pin 9"
+ R1 1
+ P1 2
+Net 13 "/Pin 10" "Pin 10"
+ P1 3
+ R3 1
+Net 14 "/Green" "Green"
+ R4 1
+ P3 2
+}
+#End
