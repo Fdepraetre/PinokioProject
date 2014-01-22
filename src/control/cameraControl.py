@@ -46,7 +46,7 @@ class CameraControl:
  
   def moveHead(self,angle):
     """ Move head at angle """ 
-    self.motorControler.setAllMotorsByName([["head",angle[0]],["top",angle[1]]])
+    self.motorControler.setMotorsByName([["head",angle[0]],["top",angle[1]]])
 
   def updateControl(self):
     """ Update the head control """

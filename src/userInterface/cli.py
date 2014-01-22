@@ -28,9 +28,9 @@ class commandLineInterface :
         if cmd.cmdName == "q":
           isRunning = False   
         elif cmd.cmdName == "setById" or cmd.cmdName == "sbi":
-          self.motorControl.setAllMotors(cmd.cmdArg)  
+          self.motorControl.setMotorsById(cmd.cmdArg)  
         elif cmd.cmdName == "setByName" or cmd.cmdName == "sbn":
-          self.motorControl.setAllMotorsByName(cmd.cmdArg)    
+          self.motorControl.setMotorsByName(cmd.cmdArg)    
 
       except:
         # And EOF may have been sent, we exit cleanly
