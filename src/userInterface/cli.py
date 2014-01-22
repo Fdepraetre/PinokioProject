@@ -9,11 +9,14 @@ class command :
   def __init__(self, cmd):
     s = cmd.split();
     self.cmdName = s[0]
-    self.cmdArg = []
-    argList = s[1:]
-    for arg in argList :
+    self.cmdArg = s[1:]
+
+  def splitArg(self):
+    argList = []
+    for arg in self.cmdArg :
       pair = arg.split('=')
-      self.cmdArg += [[pair[0],int(pair[1])]]
+      argList += [[pair[0],int(pair[1])]]
+    self.cmdArg = argList
 
 class commandLineInterface :
   def __init__(self,settingPath=None,debug=False):
@@ -31,9 +34,15 @@ class commandLineInterface :
         if cmd.cmdName == "q":
           isRunning = False   
         elif cmd.cmdName == "setById" or cmd.cmdName == "sbi":
+          cmd.splitArg()
           self.motorControl.setMotorsById(cmd.cmdArg)  
         elif cmd.cmdName == "setByName" or cmd.cmdName == "sbn":
+          cmd.splitArg()
           self.motorControl.setMotorsByName(cmd.cmdArg)    
+        elif cmd.cmdName == "setVelocity" or cmd.cmdName == "sv":
+          self.motorControl.setAllSpeed(int(cmd.cmdArg[0]))
+        elif cmd.cmdName == "read" or cmd.cmdName == "r":
+          print self.motorControl.readAllMotors()
 
       except:
         # And EOF may have been sent, we exit cleanly

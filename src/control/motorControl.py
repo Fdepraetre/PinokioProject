@@ -33,11 +33,12 @@ class Motor:
       print "motor : " + str(self.name)
       print "value : " + str(angle)
       print "range : [" + str(self.maxAngle) + "," + str(self.minAngle) + "]"
-    if self.name == "bottom":
-      fact = 6.82
     else:
-      fact = 3.41
-    self.motor.goal_position = int(fact * angle)
+      if self.name == "bottom":
+        fact = 6.82
+      else:
+        fact = 3.41
+      self.motor.goal_position = int(fact * angle)
 
   def setSpeed(self,speed):
        self.motor.moving_speed = speed
@@ -46,9 +47,13 @@ class Motor:
        self.motor.synchronized = synchronized
 
   def readMotorPosition(self):
+      if self.name == "bottom":
+        fact = 6.82
+      else:
+        fact = 3.41
       self.motor.read_all()
       time.sleep(0.1)
-      return self.motor.current_position
+      return self.motor.current_position / fact
 
 
 class MotorControl:
@@ -83,7 +88,6 @@ class MotorControl:
      
   def setAllSpeed(self,speed=100, synchronized = True):
      # Ping the range of servos that are attached
-
      for motor in self.motors:
        if motor != None :
          motor.setSpeed(speed)
@@ -96,7 +100,7 @@ class MotorControl:
         if self.motors[index] != None:
           self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
-    time.sleep(0.1)
+    #time.sleep(0.1)
 
   def setMotorsByName(self,values):
     for val in values:
@@ -112,7 +116,7 @@ class MotorControl:
     for motor in self.motors:
       if motor != None:
         motor.motor.read_all()
-        out += [motor.motor.current_position]
+        out += [motor.readMotorPosition()]
       else:
         print "motor not connected"
     return out
@@ -123,10 +127,7 @@ class MotorControl:
       index = self.nameList.index(val)
       if self.motors[index]!= None:
         self.motors[index].motor.read_all()
-        if val == "bottom" :
-          out += [self.motors[index].motor.current_position/6.82]
-        else:
-          out += [self.motors[index].motor.current_position/3.41]
+        out += [self.motors[index].readMotorPosition()]
       else:
         print "Motor not connected"
      return out
