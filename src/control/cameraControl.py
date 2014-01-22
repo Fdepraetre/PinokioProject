@@ -28,13 +28,14 @@ class CameraControl:
     
     print "___"
     for i in range(len(position)):
-      if self.precision[i] < (position[i] - self.res[i]/2) :
+      if self.precision[i] < abs(position[i] - self.res[i]/2) :
         angleAddition += [-(self.apertureAngle[i] / self.res[i]) * (position[i] - self.res[i]/2) * self.p]
       else:
         angleAddition += [0]
-      print ""
-      print "Position :" + str(position[i] - self.res[i]/2)
-      print "Angle :" + str(angleAddition[i])
+      if(i==1):
+        print ""
+        print "Position :" + str(position[i] - self.res[i]/2)
+        print "Angle :" + str(angleAddition[i])
     print "___"
     return angleAddition
 
