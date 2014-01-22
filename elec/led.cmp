@@ -1,0 +1,87 @@
+Cmp-Mod V01 Created by CvPcb (2012-apr-16-27)-stable date = mer. 22 janv. 2014 10:58:36 CET
+
+BeginCmp
+TimeStamp = /52DF8F81;
+Reference = P1;
+ValeurCmp = CONN_4;
+IdModule  = bornier4;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8F93;
+Reference = P2;
+ValeurCmp = CONN_2;
+IdModule  = bornier2;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8F71;
+Reference = P3;
+ValeurCmp = CONN_4;
+IdModule  = bornier4;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8EA3;
+Reference = Q1;
+ValeurCmp = NPN;
+IdModule  = TO220_VERT;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8EA9;
+Reference = Q2;
+ValeurCmp = NPN;
+IdModule  = TO220_VERT;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8EAB;
+Reference = Q3;
+ValeurCmp = NPN;
+IdModule  = TO220_VERT;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8EE0;
+Reference = R1;
+ValeurCmp = R;
+IdModule  = R4;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8ED6;
+Reference = R2;
+ValeurCmp = R;
+IdModule  = R4;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8EED;
+Reference = R3;
+ValeurCmp = R;
+IdModule  = R4;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8ED9;
+Reference = R4;
+ValeurCmp = R;
+IdModule  = R4;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8EF2;
+Reference = R5;
+ValeurCmp = R;
+IdModule  = R4;
+EndCmp
+
+BeginCmp
+TimeStamp = /52DF8EDE;
+Reference = R6;
+ValeurCmp = R;
+IdModule  = R4;
+EndCmp
+
+EndListe
