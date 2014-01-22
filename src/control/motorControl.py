@@ -105,7 +105,7 @@ class MotorControl:
             if self.motors[index] != None:
                 self.motors[index].setAngle(val[1]) 
     self.net.synchronize()
-    time.sleep(0.1)
+    #time.sleep(0.1)
 
   def readAllMotors(self):
     out = []
