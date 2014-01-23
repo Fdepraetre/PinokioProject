@@ -9,6 +9,7 @@ import trajectoryController
 import random
 
 def valueList(name,position):
+  """ Concatenate the two parameter list in on list of tuple"""
   values = []
   for i in range(len(name)):
     values += [[name[i],position[i]]]
@@ -28,6 +29,7 @@ class FaceSearch:
 
 
   def start(self):
+    """   """
     self.faceStream.nextFrame()
     timeOut = self.timeOut
     lastTime = time.time()
@@ -46,6 +48,7 @@ class FaceSearch:
 
 
   def __initMovement(self):
+    """ Initialisation of value list and random trajectory  """
     valueList = []
     for name in self.staticMotor:
       valueList += [[name,self.staticValues[name]]]
@@ -54,6 +57,7 @@ class FaceSearch:
     self.__randomTraj()
 
   def __updateMovement(self):
+    """ Update the coordinates and set the speed and position values  """
     if not self.traj.update() :
       self.motorControler.setAllSpeed(int(self.traj.speed)+20)
       self.motorControler.setMotorsByName(valueList(self.dynamicMotors,self.traj.position))
@@ -62,6 +66,7 @@ class FaceSearch:
 
     
   def __randomTraj(self):
+    """ Set trajectory with random coordinates  """
     currentPosition = self.motorControler.readMotorByName(self.dynamicMotors)
     goalPosition = [] 
     for name in self.dynamicMotors:
