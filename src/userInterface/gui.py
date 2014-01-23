@@ -6,10 +6,12 @@ sys.path.insert(0, "../settings/")
 import settings
 sys.path.insert(0, "../control/")
 import motorControl
+sys.path.insert(0,"../traj/")
+import trajectoryController
 
 class MyFrame(wx.Frame):
     def __init__(self, parent, id, title):
-        wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition, (600, 600))
+        wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition, (800, 600))
         #panel = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
 
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -20,8 +22,8 @@ class MyFrame(wx.Frame):
         vbox.Add(hboxlist, 1, wx.EXPAND)
 
         motorSettings = settings.MotorSettings().get()
-        self.motorControler = motorControl.MotorControl(motorSettings)
-        self.motorControler.setAllSpeed(100)
+        self.motorController = motorControl.MotorControl(motorSettings)
+        self.motorController.setAllSpeed(100)
         #parse motor setting to get min and max angle, store result in hash motors
         motors = {}
         motorsConfig=motorSettings["motorConfig"]
@@ -29,10 +31,7 @@ class MyFrame(wx.Frame):
             motors[motor[3]] = [motor[1], motor[2]]
 
 
-        #thread for sequence of movement
-        self.play = PlayMove(self.motorControler)
-
-
+        
         #visual element
 
         #bowl button
@@ -48,7 +47,7 @@ class MyFrame(wx.Frame):
         #bottom button
         pnlBottom = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
         hboxcontrols.Add(pnlBottom, 1, wx.ALL | wx.EXPAND, 1)
-        self.sldBottom = wx.Slider(pnlBottom, -1, motors["bottom"][0], motors["bottom"][0], motors["bottom"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
+        self.sldBottom = wx.Slider(pnlBottom, -1, motors["bottom"][1], motors["bottom"][0], motors["bottom"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
         textBottom = wx.StaticText(pnlBottom, -1, 'Bottom')
         vboxBottom = wx.BoxSizer(wx.VERTICAL)
         vboxBottom.Add(self.sldBottom, 1, wx.CENTER)
@@ -129,19 +128,23 @@ class MyFrame(wx.Frame):
         count = self.positionList.GetItemCount()
         list=[]
         for row in range(count):
-            value = self.positionList.GetItem(row, 0)
-            list.append(["bowl", value])
-            value = self.positionList.GetItem(row, 1)
-            list.append(["bottom", value])
-            value = self.positionList.GetItem(row, 2)
-            list.append(["mid", value])
-            value = self.positionList.GetItem(row, 3)
-            list.append(["top", value])
-            value = self.positionList.GetItem(row, 4)
-            list.append(["head", value])
+            list2 =[]
+            value = int(self.positionList.GetItem(row, 0).GetText())
+            list2.append(["bowl", value])
+            value = int(self.positionList.GetItem(row, 1).GetText())
+            list2.append(["bottom", value])
+            value = int(self.positionList.GetItem(row, 2).GetText())
+            list2.append(["mid", value])
+            value = int(self.positionList.GetItem(row, 3).GetText())
+            list2.append(["top", value])
+            value = int(self.positionList.GetItem(row, 4).GetText())
+            list2.append(["head", value])
+            list.append(list2)
 
-        self.play.listmove(list)
-        self.play.start(motorControl)
+        #thread for sequence of movement
+        self.play = PlayMove(self.motorController)
+        self.play.listMove(list)
+        self.play.start()
 
     def OnStop(self, event):
         #print "caramel"
@@ -155,7 +158,7 @@ class MyFrame(wx.Frame):
         list.append(["top", self.sldTop.GetValue()])
         list.append(["head", self.sldHead.GetValue()])
 
-        self.motorControler.setMotorsByName(list)
+        self.motorController.setMotorsByName(list)
 
     def OnSavePosition(self, event):
         print "biscuit"
@@ -181,18 +184,45 @@ class MyApp(wx.App):
         frame.Centre()
         return True
 
+def getValueList(l):
+  res = []
+  for move in l:
+    res.append(move[1])
+  return res
+
 class PlayMove(threading.Thread):
-    def __init__(self, motorControler):
+    def __init__(self, motorController):
         threading.Thread.__init__(self)
         self.play = False
         self.stoplock = threading.Lock()
-        self.motorControler = motorControler
+        self.motorController = motorController
 
     def run(self):
         self.play = True
-        while self.play:
-            print "chocolat"
-            time.sleep(2)
+        index = 0
+
+        #Go to initial position
+        print self.moves[0]
+        self.motorController.setMotorsByName(self.moves[0])
+        time.sleep(3)
+        
+        if len(self.moves) > 1 :
+
+          traj = trajectoryController.TrajectoryController(100,40,len(self.moves[0]))
+          traj.set(getValueList(self.moves[0]),getValueList(self.moves[1]))
+          while self.play :
+            if not traj.update():
+              self.motorController.setAllSpeed(int(traj.speed))
+              values = [["bowl",traj.position[0]],
+                        ["bottom",traj.position[1]],
+                        ["mid",traj.position[2]],
+                        ["top",traj.position[3]],
+                        ["head",traj.position[4]]]
+              self.motorController.setMotorsByName(values)
+            else :
+              index = (index + 1) % len(self.moves)
+              traj.set(getValueList(self.moves[index]),getValueList(self.moves[(index + 1)%len(self.moves)]))
+              
 
     def stop(self):
         with self.stoplock:
