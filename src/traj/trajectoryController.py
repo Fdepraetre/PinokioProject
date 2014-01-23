@@ -34,7 +34,7 @@ class TrajectoryController:
 
   def update(self):
 
-    currentTime = time.time() - self.timeInit
+    currentTime = time.time() - self.timeInit +0.01
 
     if currentTime < self.timef/2:
       acc   = self.accMax
@@ -47,7 +47,7 @@ class TrajectoryController:
     else :
       acc   = 0
       speed = 0
-      pos   = 0
+      pos   = (-1 + self.B * self.timef - self.A * self.timef * self.timef )
  
 
     self.position = np.multiply(self.D,pos)

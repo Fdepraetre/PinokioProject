@@ -5,6 +5,7 @@ sys.path.insert(0, "../settings/")
 import settings
 sys.path.insert(0,"../traj/")
 import trajectoryController
+import trajPlot
 import time
 import cv2
 import select
@@ -19,7 +20,9 @@ def valueList(name,position):
     values += [[name[i],position[i]]]
   return values
 
-trajectoryController = trajectoryController.TrajectoryController(100,20)
+trajectoryController = trajectoryController.TrajectoryController(1000,200)
+trajectoryPlot = trajPlot.PlotTraj()
+i = 0
 
 motorSettings = settings.MotorSettings()
 motorControler = motorControl.MotorControl(motorSettings.get())
@@ -28,7 +31,6 @@ motorControler = motorControl.MotorControl(motorSettings.get())
 print valueList(motorName,initPosition)
 motorControler.setMotorsByName(valueList(motorName,initPosition))
 time.sleep(5)
-
 trajectoryController.set(initPosition,finalPosition)
 while not trajectoryController.update():
   valMotor = motorControler.readMotorByName(motorName)
@@ -36,7 +38,15 @@ while not trajectoryController.update():
   print "Trajectory : " + str(valMotor)
   print "Position : " + str(trajectoryController.position)
   print "Speed : " + str(trajectoryController.speed)
-  motorControler.setAllSpeed(int(trajectoryController.speed)+20)
+  motorControler.setAllSpeed(int(trajectoryController.speed))
   motorControler.setMotorsByName(valueList(motorName,trajectoryController.position))
-  time.sleep(0.1)
+  i += 1
+#    time.sleep(0.01)
+  trajectoryPlot.addNewVal(valMotor,
+                         time.time()-trajectoryController.timeInit,
+                          [trajectoryController.position[0],trajectoryController.position[1],trajectoryController.position[2]]
+                          )
+  
+print "Le nombre de point est " + str(i)
+trajectoryPlot.plot()
   
