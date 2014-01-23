@@ -20,8 +20,8 @@ class MyFrame(wx.Frame):
         vbox.Add(hboxlist, 1, wx.EXPAND)
 
         motorSettings = settings.MotorSettings().get()
-        motorControler = motorControl.MotorControl(motorSettings)
-        motorControler.setAllSpeed(10)
+        self.motorControler = motorControl.MotorControl(motorSettings)
+        self.motorControler.setAllSpeed(100)
         #parse motor setting to get min and max angle, store result in hash motors
         motors = {}
         motorsConfig=motorSettings["motorConfig"]
@@ -30,14 +30,14 @@ class MyFrame(wx.Frame):
 
 
         #thread for sequence of movement
-        self.play = PlayMove(motorControler)
+        self.play = PlayMove(self.motorControler)
 
 
         #visual element
 
         #bowl button
         pnlBowl = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
-        hboxcontrols.Add(pnlBowl, 1, wx.ALL, 1)
+        hboxcontrols.Add(pnlBowl, 1, wx.ALL |wx.EXPAND, 1)
         self.sldBowl = wx.Slider(pnlBowl, -1, motors["bowl"][0], motors["bowl"][0], motors["bowl"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
         textBowl = wx.StaticText(pnlBowl, -1, 'Bowl')
         vboxBowl = wx.BoxSizer(wx.VERTICAL)
@@ -47,7 +47,7 @@ class MyFrame(wx.Frame):
 
         #bottom button
         pnlBottom = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
-        hboxcontrols.Add(pnlBottom, 1, wx.ALL, 1)
+        hboxcontrols.Add(pnlBottom, 1, wx.ALL | wx.EXPAND, 1)
         self.sldBottom = wx.Slider(pnlBottom, -1, motors["bottom"][0], motors["bottom"][0], motors["bottom"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
         textBottom = wx.StaticText(pnlBottom, -1, 'Bottom')
         vboxBottom = wx.BoxSizer(wx.VERTICAL)
@@ -57,8 +57,8 @@ class MyFrame(wx.Frame):
 
         #middle button
         pnlMiddle = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
-        hboxcontrols.Add(pnlMiddle, 1, wx.ALL, 1)
-        self.sldMiddle = wx.Slider(pnlMiddle, -1, motors["middle"][0], motors["middle"][0], motors["middle"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
+        hboxcontrols.Add(pnlMiddle, 1, wx.ALL | wx.EXPAND, 1)
+        self.sldMiddle = wx.Slider(pnlMiddle, -1, motors["mid"][0], motors["mid"][0], motors["mid"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
         textMiddle = wx.StaticText(pnlMiddle, -1, 'Middle')
         vboxMiddle= wx.BoxSizer(wx.VERTICAL)
         vboxMiddle.Add(self.sldMiddle, 1, wx.CENTER)
@@ -67,7 +67,7 @@ class MyFrame(wx.Frame):
 
         #top button
         pnlTop = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
-        hboxcontrols.Add(pnlTop, 1, wx.ALL, 1)
+        hboxcontrols.Add(pnlTop, 1, wx.ALL | wx.EXPAND, 1)
         self.sldTop = wx.Slider(pnlTop, -1, motors["top"][0], motors["top"][0], motors["top"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
         textTop = wx.StaticText(pnlTop, -1, 'Top')
         vboxTop = wx.BoxSizer(wx.VERTICAL)
@@ -77,7 +77,7 @@ class MyFrame(wx.Frame):
 
         #head button
         pnlHead = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
-        hboxcontrols.Add(pnlHead, 1, wx.ALL, 1)
+        hboxcontrols.Add(pnlHead, 1, wx.ALL | wx.EXPAND, 1)
         self.sldHead = wx.Slider(pnlHead, -1, motors["head"][0], motors["head"][0], motors["head"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
         textHead = wx.StaticText(pnlHead, -1, 'Head')
         vboxHead = wx.BoxSizer(wx.VERTICAL)
@@ -134,7 +134,7 @@ class MyFrame(wx.Frame):
             value = self.positionList.GetItem(row, 1)
             list.append(["bottom", value])
             value = self.positionList.GetItem(row, 2)
-            list.append(["middle", value])
+            list.append(["mid", value])
             value = self.positionList.GetItem(row, 3)
             list.append(["top", value])
             value = self.positionList.GetItem(row, 4)
@@ -151,11 +151,11 @@ class MyFrame(wx.Frame):
         list=[]
         list.append(["bowl", self.sldBowl.GetValue()])
         list.append(["bottom", self.sldBottom.GetValue()])
-        list.append(["middle", self.sldMiddle.GetValue()])
+        list.append(["mid", self.sldMiddle.GetValue()])
         list.append(["top", self.sldTop.GetValue()])
         list.append(["head", self.sldHead.GetValue()])
 
-        motorControl.setMotorByName(list)
+        self.motorControler.setMotorsByName(list)
 
     def OnSavePosition(self, event):
         print "biscuit"
@@ -203,6 +203,6 @@ class PlayMove(threading.Thread):
         with self.stoplock:
             self.moves = list
 
-motorsConfig = [[0, 0, 100, "bowl"], [0, 9, 100, "bottom"], [1, 30, 100, "middle"], [2, 45, 1000, "top"], [3, 10, 400, "head"]]
+motorsConfig = [[0, 0, 100, "bowl"], [0, 9, 100, "bottom"], [1, 30, 100, "mid"], [2, 45, 1000, "top"], [3, 10, 400, "head"]]
 app = MyApp(0)
 app.MainLoop()
