@@ -4,15 +4,15 @@ import trajPlot
 
 class TrajectoryController:
 
-  def __init__(self,speedMax,accMax):
-    self.initPoint = np.zeros((3,1))
-    self.endPoint  = np.zeros((3,1))
+  def __init__(self,speedMax,accMax,size=3):
+    self.initPoint = np.zeros((size,1))
+    self.endPoint  = np.zeros((size,1))
     self.speedMax  = speedMax
     self.accMax    = accMax
     self.speed     = 0
-    self.D         = np.zeros((3,1))
+    self.D         = np.zeros((size,1))
     self.timef     = 0
-    self.position  = np.zeros((3,1))
+    self.position  = np.zeros((size,1))
 
   def set(self,initPoint,endPoint):
     self.initPoint = initPoint
@@ -34,6 +34,7 @@ class TrajectoryController:
 
   def update(self):
 
+    # The +0.1 is to anticipate the next value
     currentTime = time.time() - self.timeInit +0.01
 
     if currentTime < self.timef/2:
@@ -61,28 +62,3 @@ class TrajectoryController:
         return True
     else :
         return False
-
-
-if (__name__) =='__main__' :
-
-  trajectory = TrajectoryController(10,5)
-  timeInit = time.time()
-  posMesured = [[0]]
-  trajectory.set([[0],[0],[0]],[[10],[15],[60]])
-  print trajectory.timef
-  plotter = trajPlot.PlotTraj()
-  plotter2 = trajPlot.PlotTraj()
-  pos = 0
-  [acc,speed,pos] = trajectory.update()
-  while  (time.time()-timeInit) < trajectory.timef:
-    [acc,speed,pos] = trajectory.update()
-    print "update"
-    print pos
-    print trajectory.position
-    plotter.addNewVal([acc,speed,trajectory.position[0]],time.time()-timeInit)
-    plotter2.addNewVal([trajectory.position[0],trajectory.position[1],trajectory.position[2]],time.time()-timeInit)
-    
-  plotter.plot()
-  plotter2.plot()
-
-
