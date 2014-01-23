@@ -12,7 +12,7 @@ import cv2
 motorSettings = settings.MotorSettings()
 
 motorControler = motorControl.MotorControl(motorSettings.get())
-motorControler.setAllSpeed(10)
+motorControler.setAllSpeed(100)
 faceStream = FaceDetection.FaceStream(1)
 
 precision = 0.1

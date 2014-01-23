@@ -38,7 +38,7 @@ class FaceStream(VideoStream.VideoStream):
 
   def isFaceDetected(self):
     """ Is a face detected ? """
-    return FaceDetection.isFaceDetected()
+    return self.faceDetection.isFaceDetected()
 
   def getFacePosition(self):
     """ """
