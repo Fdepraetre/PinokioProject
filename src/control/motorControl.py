@@ -52,7 +52,7 @@ class Motor:
       else:
         fact = 3.41
       self.motor.read_all()
-      time.sleep(0.1)
+#      time.sleep(0.1)
       return self.motor.current_position / fact
   
   def getRange(self):
@@ -89,11 +89,15 @@ class MotorControl:
     self.setAllSpeed()
         
      
-  def setAllSpeed(self,speed=100, synchronized = True):
+  def setAllSpeed(self,speed=100):
      # Ping the range of servos that are attached
      for motor in self.motors:
        if motor != None :
          motor.setSpeed(speed)
+
+  def setSynchronize(self,synchronized = True):
+     for motor in self.motors:
+       if motor != None :
          motor.setSynchronize(synchronized)
 
   def setMotorsById(self,values):
