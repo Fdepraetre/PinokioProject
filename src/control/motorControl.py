@@ -19,7 +19,7 @@ class Motor:
     self.name = name
 
   def setAngle(self,angle):
-    ''' Set the motor angle '''
+    """ Set the motor angle """
     if angle > self.maxAngle or angle < self.minAngle:
       print "Angle out of range"
       print "motor : " + str(self.name)
@@ -82,20 +82,20 @@ class MotorControl:
         
      
   def setAllSpeed(self,speed=100):
-    ''' Set the speed for every motors '''
+    """ Set the speed for every motors """
      # Ping the range of servos that are attached
      for motor in self.motors:
        if motor != None :
          motor.setSpeed(speed)
 
   def setSynchronize(self,synchronized = True):
-    ''' Set the synchronization for every motors '''
+    """ Set the synchronization for every motors """
      for motor in self.motors:
        if motor != None :
          motor.setSynchronize(synchronized)
 
   def setMotorsById(self,values):
-    ''' Set the angle motor by ID ( values is a list of tuple [ motorId , Angle]) '''
+    """ Set the angle motor by ID ( values is a list of tuple [ motorId , Angle]) """
     for val in values:
       if val[0] in self.idList :
         index = self.idList.index(val[0])
@@ -105,7 +105,7 @@ class MotorControl:
     #time.sleep(0.1)
 
   def setMotorsByName(self,values):
-    ''' Set the angle motor by name ( values is a list of tuple [ motorName , Angle]) '''
+    """ Set the angle motor by name ( values is a list of tuple [ motorName , Angle]) """
     for val in values:
         if val[0] in self.nameList :
             index = self.nameList.index(val[0])
@@ -115,7 +115,7 @@ class MotorControl:
     #time.sleep(0.1)
 
   def readAllMotors(self):
-    '''Return each motor position in tick motor  '''
+    """Return each motor position in tick motor  """
     out = []
     for motor in self.motors:
       if motor != None:
@@ -126,7 +126,7 @@ class MotorControl:
     return out
 
   def readMotorByName(self,values):
-    '''Return each motor position in values in tick motor  '''
+    """Return each motor position in values in tick motor  """
      out = []
      for val in values:
       index = self.nameList.index(val)
@@ -138,7 +138,7 @@ class MotorControl:
      return out
 
   def getRangeByName(self,names):
-    ''' Return the motor range for motor in names '''
+    """ Return the motor range for motor in names """
     out = {}
     for name in names:
       index = self.nameList.index(name)
