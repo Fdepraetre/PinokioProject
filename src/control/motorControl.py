@@ -54,6 +54,9 @@ class Motor:
       self.motor.read_all()
 #      time.sleep(0.1)
       return self.motor.current_position / fact
+  
+  def getRange(self):
+    return [self.minAngle,self.maxAngle]
 
 
 class MotorControl:
@@ -135,4 +138,15 @@ class MotorControl:
       else:
         print "Motor not connected"
      return out
+
+  def getRangeByName(self,names):
+    out = {}
+    for name in names:
+      index = self.nameList.index(name)
+      if self.motors[index]!= None:
+        out[name] = self.motors[index].getRange()
+      else:
+        print "Motor not connected"
+    return out
+
 

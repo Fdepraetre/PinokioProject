@@ -22,6 +22,9 @@ class FaceDetection:
       position = (x+w/2,y+h/2,int(numpy.floor(numpy.sqrt((h/2)*(h/2)+(w/2)*(w/2)))))
       self.faces += [position]
 
+  def isFaceDetected(self):
+    """ Is a face detected ?"""
+    return self.faces != []
 
 class FaceStream(VideoStream.VideoStream):
   def __init__(self, camId = 0, resWidth = 320, resHeight = 240):
@@ -32,6 +35,10 @@ class FaceStream(VideoStream.VideoStream):
     """ Read the next frame from the video capture and compute face """
     VideoStream.VideoStream.nextFrame(self)
     self.faceDetection.computeFace(self.frame)
+
+  def isFaceDetected(self):
+    """ Is a face detected ? """
+    return self.faceDetection.isFaceDetected()
 
   def getFacePosition(self):
     """ """

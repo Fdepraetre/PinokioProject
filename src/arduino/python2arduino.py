@@ -15,7 +15,7 @@ class Arduino:
     self.lightLed(0,255,0)
 
   def redLight(self):
-    self.lightLed(255,0,0)
+    self.lightLed(255,30,0)
 
   def blueLight(self):
     self.lightLed(0,0,255)

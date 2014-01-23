@@ -17,6 +17,7 @@ motorControler = motorControl.MotorControl(motorSettings.get())
 motorControler.setAllSpeed(10)
 faceStream = FaceDetection.FaceStream(1)
 
+motorControler.setAllSpeed(100)
 precision = 0.1
 res = [360,240]
 apertureAngle = [50.,30.]
