@@ -16,6 +16,7 @@ motorSettings = settings.MotorSettings()
 
 # Scan, detect and open communication with the motor on network
 motorControler = motorControl.MotorControl(motorSettings.get())
+# Set motor speed to 10 ( the value is between 0 and 1024)
 motorControler.setAllSpeed(10)
 # Initialise the face detection on camera 1
 # If you are using your laptop camera or if you don't have embedded camera on your laptop , change 1 by 0 
@@ -50,7 +51,7 @@ while not exit :
   else:
     # Else we light in red the leds
     arduino.redLight()
-  # Display the frame from camera
+  # Display the frame from camera on screen
   faceStream.display()
   # Update the camera's control with the value 
   camera.updateControl()

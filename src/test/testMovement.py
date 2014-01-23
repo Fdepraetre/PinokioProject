@@ -6,9 +6,12 @@ import settings
 import time
 import numpy as np
 
+# Scan, detect and open communication with the motor on network
 motorSettings = settings.MotorSettings()
 motorControler = motorControl.MotorControl(motorSettings.get())
-motorControler.setAllSpeed(10,False)
+
+# Set motor speed to 10 ( the value is between 0 and 1024)
+motorControler.setAllSpeed(10)
 
 motorName = "head"
 initValue = 100
@@ -24,7 +27,9 @@ print "Init ok"
 print "position : " + str(initValue)
 
 for i in np.arange(0,step,1):
-  position = initValue + (finalValue - initValue) * i/step 
+  # Compute next position
+  position = initValue + (finalValue - initValue) * i/step
+  # Set the value to the motor
   motorControler.setMotorsByName([[motorName,position]])
   print ""
   print "go to position : " + str(position)
