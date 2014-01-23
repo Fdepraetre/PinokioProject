@@ -44,7 +44,6 @@ class Motor:
       else:
         fact = 3.41
       self.motor.read_all()
-#      time.sleep(0.1)
       return self.motor.current_position / fact
   
   def getRange(self):
@@ -83,16 +82,16 @@ class MotorControl:
      
   def setAllSpeed(self,speed=100):
     """ Set the speed for every motors """
-     # Ping the range of servos that are attached
-     for motor in self.motors:
-       if motor != None :
-         motor.setSpeed(speed)
+    # Ping the range of servos that are attached
+    for motor in self.motors:
+      if motor != None :
+        motor.setSpeed(speed)
 
   def setSynchronize(self,synchronized = True):
     """ Set the synchronization for every motors """
-     for motor in self.motors:
-       if motor != None :
-         motor.setSynchronize(synchronized)
+    for motor in self.motors:
+      if motor != None :
+        motor.setSynchronize(synchronized)
 
   def setMotorsById(self,values):
     """ Set the angle motor by ID ( values is a list of tuple [ motorId , Angle]) """
@@ -127,15 +126,15 @@ class MotorControl:
 
   def readMotorByName(self,values):
     """Return each motor position in values in tick motor  """
-     out = []
-     for val in values:
-      index = self.nameList.index(val)
-      if self.motors[index]!= None:
-        self.motors[index].motor.read_all()
-        out += [self.motors[index].readMotorPosition()]
-      else:
-        print "Motor not connected"
-     return out
+    out = []
+    for val in values:
+     index = self.nameList.index(val)
+     if self.motors[index]!= None:
+       self.motors[index].motor.read_all()
+       out += [self.motors[index].readMotorPosition()]
+     else:
+       print "Motor not connected"
+    return out
 
   def getRangeByName(self,names):
     """ Return the motor range for motor in names """

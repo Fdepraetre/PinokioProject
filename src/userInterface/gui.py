@@ -157,7 +157,7 @@ class MyFrame(wx.Frame):
         list.append(["mid", self.sldMiddle.GetValue()])
         list.append(["top", self.sldTop.GetValue()])
         list.append(["head", self.sldHead.GetValue()])
-
+        self.motorController.setAllSpeed(100)
         self.motorController.setMotorsByName(list)
 
     def OnSavePosition(self, event):
