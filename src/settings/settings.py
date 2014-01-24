@@ -19,4 +19,8 @@ class ModelSettings(Settings):
   def __init__(self, path = "../settings/modelSettings.yaml"):
     Settings.__init__(self, path)
 
+class ArduinoSettings(Settings):
+  def __init__(self, path = "../settings/arduinoSettings.yaml"):
+    Settings.__init__(self, path)
+
 

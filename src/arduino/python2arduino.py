@@ -1,12 +1,11 @@
 import serial
-import time
 
 class Arduino:
-  def __init__(self,port):
+  def __init__(self, port, baudrate):
     """ Open the serial port with the Arduino Board """
-    self.ser=serial.Serial(port,9600)
+    self.ser = serial.Serial(port, baudrate)
 
-  def lightLed(self,r,g,b):
+  def lightLed(self,r ,g ,b):
     """ Light every led with the color r,g,b """
     red = str(chr(r)) #Convert the decimal number to ASCII
     blue = str(chr(b))
