@@ -12,13 +12,13 @@ import cv2
 # Parse the YAML file with motor and communication settings
 motorSettings = settings.MotorSettings()
 
-# Scan, detect and open communication with the motor on network
+#Scan, detect and open communication with the motor on network
 motorControler = motorControl.MotorControl(motorSettings.get())
-# Set motor speed to 100 ( the value is between 0 and 1024)
+#Set motor speed to 100 ( the value is between 0 and 1024)
 motorControler.setAllSpeed(100)
 
-# Initialise the face detection on camera 1
-# If you are using your laptop camera or if you don't have embedded camera on your laptop , change 1 by 0 
+#Initialise the face detection on camera 1
+#If you are using your laptop camera or if you don't have embedded camera on your laptop , change 1 by 0 
 faceStream = FaceDetection.FaceStream(1)
 
 precision = 0.1
@@ -34,9 +34,9 @@ exit = False
 while not exit:
   # Change the frame from camera
   frame = faceStream.nextFrame()
-  # Display the frame from camera
+  #Display the frame from camera
   faceStream.display()
-  # Update the camera's control with the value 
+  #Update the camera's control with the value 
   camera.updateControl()
   key = cv2.waitKey(10)
   if key == ord('q'):
