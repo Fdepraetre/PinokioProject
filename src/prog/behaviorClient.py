@@ -1,6 +1,7 @@
 import sys
 sys.path.insert(0,"../behavior/")
 import searchFaces
+import sleep
 sys.path.insert(0,"../control/")
 import motorControl
 import cameraControl
@@ -25,6 +26,7 @@ faceSearchBehavior = searchFaces.FaceSearch(motorControler,faceStream,60)
 faceSearchBehavior.start()
 
 arduino = python2arduino.Arduino('/dev/ttyACM0')
+sleep = sleep.Sleep(motorControler)
 
 #Camera 
 precision = 0.1
@@ -70,5 +72,16 @@ while not exit :
     state = "faceSearch"     
   elif state == "faceSearch" :
     # Start searching faces
-    faceSearchBehavior.start()
-    state = "faceFollow"     
+    detect = faceSearchBehavior.start()
+    if detect == True:
+      state = "faceFollow"    
+    else:
+      state = "sleep"
+  elif state == "sleep" :
+    # Start sleeping
+    sleep.activate()
+    while state == "sleep":
+      sleep.update()
+      key = cv2.waitKey(10)
+      if key == ord('f'):
+        state = "faceSearch"
