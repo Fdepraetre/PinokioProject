@@ -34,8 +34,7 @@ class MyFrame(wx.Frame):
             motors[motor[3]] = [motor[1], motor[2]]
 
         #load led
-        arduinoSettings = settings.ArduinoSettings().get()
-        self.ledController = python2arduino.Arduino(arduinoSettings["port"], arduinoSettings["baudrate"])
+        self.ledController = python2arduino.Arduino()
         
         #visual element
 

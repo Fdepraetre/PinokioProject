@@ -21,10 +21,10 @@ class FaceSearch:
     self.motorControler = motorControler
     self.faceStream = faceStream
     self.timeOut = timeOut
-    self.dynamicMotors = ["bowl","mid","head"]
-    self.staticMotor = ["bottom","top"]
+    self.dynamicMotors = ["bowl","mid","head","top"]
+    self.staticMotor = ["bottom"]
     self.dynamicRanges = motorControler.getRangeByName(self.dynamicMotors)
-    self.staticValues = {"bottom": 150, "top": 175}
+    self.staticValues = {"bottom": 150}
     self.traj = trajectoryController.TrajectoryController(100,20)
 
 

@@ -1,9 +1,15 @@
 import serial
+import settings
 
 class Arduino:
-  def __init__(self, port, baudrate):
+  def __init__(self, path=None):
     """ Open the serial port with the Arduino Board """
-    self.ser = serial.Serial(port, baudrate)
+    if path != None:
+      arduinoSettings = settings.ArduinoSettings(path).get()
+    else:
+      arduinoSettings = settings.ArduinoSettings().get()
+
+    self.ser = serial.Serial(arduinoSettings["port"], arduinoSettings["baudrate"])
 
   def lightLed(self,r ,g ,b):
     """ Light every led with the color r,g,b """
@@ -18,7 +24,7 @@ class Arduino:
 
   def redLight(self):
     """Light led with red color """
-    self.lightLed(255,30,0)
+    self.lightLed(255,0,0)
 
   def blueLight(self):
     """Light led with blue color """

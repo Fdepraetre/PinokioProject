@@ -21,11 +21,11 @@ motorControler = motorControl.MotorControl(motorSettings.get())
 faceStream = FaceDetection.FaceStream(1)
 
 # Init Face detection 
-faceSearchBehavior = searchFaces.FaceSearch(motorControler,faceStream,60)
+faceSearchBehavior = searchFaces.FaceSearch(motorControler,faceStream,15)
 # Start Face Search 
 faceSearchBehavior.start()
 
-arduino = python2arduino.Arduino('/dev/ttyACM0')
+arduino = python2arduino.Arduino()
 sleep = sleep.Sleep(motorControler)
 
 #Camera 
@@ -72,6 +72,7 @@ while not exit :
     state = "faceSearch"     
   elif state == "faceSearch" :
     # Start searching faces
+    arduino.redLight()
     detect = faceSearchBehavior.start()
     if detect == True:
       state = "faceFollow"    
@@ -79,9 +80,10 @@ while not exit :
       state = "sleep"
   elif state == "sleep" :
     # Start sleeping
+    arduino.blueLight()
     sleep.activate()
     while state == "sleep":
       sleep.update()
-      key = cv2.waitKey(10)
+      key = cv2.waitKey(1000)
       if key == ord('f'):
         state = "faceSearch"

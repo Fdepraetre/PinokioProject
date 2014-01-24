@@ -42,12 +42,12 @@ class CameraControl:
 
   def readHead(self):
     """ Return the angle of the head """
-    angle = self.motorControler.readMotorByName(["head","top"])
+    angle = self.motorControler.readMotorByName(["top","head"])
     return angle
  
   def moveHead(self,angle):
     """ Move head at angle """ 
-    self.motorControler.setMotorsByName([["head",angle[0]],["top",angle[1]]])
+    self.motorControler.setMotorsByName([["top",angle[0]],["head",angle[1]]])
 
   def updateControl(self):
     """ Update the head control """
