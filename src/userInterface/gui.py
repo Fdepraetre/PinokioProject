@@ -40,7 +40,7 @@ class MyFrame(wx.Frame):
         #visual element
 
         #bowl button
-        pnlBowl = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
+        pnlBowl = wx.Panel(self, -1, size=(10,-1), style=wx.SIMPLE_BORDER)
         hboxcontrols.Add(pnlBowl, 1, wx.ALL |wx.EXPAND, 1)
         self.sldBowl = wx.Slider(pnlBowl, -1, motors["bowl"][0], motors["bowl"][0], motors["bowl"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
         textBowl = wx.StaticText(pnlBowl, -1, 'Bowl')

@@ -1,1 +1,1 @@
-{baudrate: 9600 , port: \\.\COM5}
+{baudrate: 9600 , port: /dev/ttyACM0}
