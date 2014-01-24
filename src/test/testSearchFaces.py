@@ -8,7 +8,6 @@ import FaceDetection
 sys.path.insert(0,"../settings/")
 import settings
 
-
 motorSettings = settings.MotorSettings()
 motorControler = motorControl.MotorControl(motorSettings.get())
 faceStream = FaceDetection.FaceStream(1)

@@ -14,8 +14,8 @@ motorControler = motorControl.MotorControl(motorSettings.get())
 motorControler.setAllSpeed(10)
 
 motorName = "head"
-initValue = 100
-finalValue = 200
+initValue = 125
+finalValue = 175
 step = 10
 stepTime = 0.1
 

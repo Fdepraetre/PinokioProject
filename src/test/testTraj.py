@@ -12,9 +12,9 @@ import select
 
 # Define initial position , end position and the different Motor name 
 # concerned by the trajectory
-initPosition = [140,50,120]
+initPosition = [125,75,60]
 motorName = ["head","top","bowl"]
-finalPosition = [240,150,220]
+finalPosition = [175,190,120]
 
 
 def valueList(name,position):

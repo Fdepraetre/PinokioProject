@@ -30,9 +30,9 @@ while not exit:
     elif cmd == 'p':
       plotter.plot()
 
-  moveAndPlot(motorControler, plotter, [["bottom",100],["middle",230],["head",250],["top",150],["bowl",200]])
+  moveAndPlot(motorControler, plotter, [["bottom",150],["mid",220],["head",125],["top",75],["bowl",45]])
   time.sleep(1)
-  moveAndPlot(motorControler, plotter, [["bottom",160],["middle",160],["head",150],["top",100],["bowl",300]])
+  moveAndPlot(motorControler, plotter, [["bottom",150],["mid",180],["head",175],["top",75],["bowl",135]])
   time.sleep(1)
-  moveAndPlot(motorControler, plotter, [["bottom",100],["middle",160],["head",150],["top",200],["bowl",300]])
+  moveAndPlot(motorControler, plotter, [["bottom",150],["mid",180],["head",125],["top",190],["bowl",45]])
   time.sleep(1)
