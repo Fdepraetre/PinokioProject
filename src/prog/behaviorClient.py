@@ -14,7 +14,7 @@ import python2arduino
 import cv2
 
 
-# Initialisation of motor with detection 
+#Initialisation of motor with detection 
 motorSettings = settings.MotorSettings()
 motorControler = motorControl.MotorControl(motorSettings.get())
 faceStream = FaceDetection.FaceStream(1)
@@ -31,7 +31,7 @@ precision = 0.1
 res = [360,240]
 apertureAngle = [50.,30.]
 
-# Time out for loosing 
+# Time out for loosing 
 thresholdFace = 2
 
 # Initialisation for the camera control
@@ -42,7 +42,7 @@ exit = False
 
 state = "faceSearch"
 
-# Set the light to red value on led circle
+# Set the light to red value on led circle
 arduino.redLight()
 
 while not exit :
@@ -63,7 +63,7 @@ while not exit :
         timeOut += currentTime - lastTime
         lastTime = currentTime
         arduino.redLight()
-      # Display the frame
+      # Display the frame
       faceStream.display()
       key = cv2.waitKey(10)
       camera.updateControl()
