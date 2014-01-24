@@ -6,8 +6,10 @@ sys.path.insert(0, "../settings/")
 import settings
 sys.path.insert(0, "../control/")
 import motorControl
-sys.path.insert(0,"../traj/")
+sys.path.insert(0, "../traj/")
 import trajectoryController
+sys.path.insert(0, "../arduino/")
+import python2arduino
 
 class MyFrame(wx.Frame):
     def __init__(self, parent, id, title):
@@ -21,6 +23,7 @@ class MyFrame(wx.Frame):
         vbox.Add(hboxcontrols)
         vbox.Add(hboxlist, 1, wx.EXPAND)
 
+        #load motor
         motorSettings = settings.MotorSettings().get()
         self.motorController = motorControl.MotorControl(motorSettings)
         self.motorController.setAllSpeed(100)
@@ -30,7 +33,9 @@ class MyFrame(wx.Frame):
         for motor in motorsConfig:
             motors[motor[3]] = [motor[1], motor[2]]
 
-
+        #load led
+        arduinoSettings = settings.ArduinoSettings().get()
+        self.ledController = python2arduino.Arduino(arduinoSettings["port"], arduinoSettings["baudrate"])
         
         #visual element
 
@@ -83,6 +88,36 @@ class MyFrame(wx.Frame):
         vboxHead.Add(self.sldHead, 1, wx.CENTER)
         vboxHead.Add(textHead, 1, wx.CENTER)
         pnlHead.SetSizer(vboxHead)
+
+        #red button
+        pnlRed = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
+        hboxcontrols.Add(pnlRed, 1, wx.ALL | wx.EXPAND, 1)
+        self.sldRed = wx.Slider(pnlRed, -1, 0, 0, 255, wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
+        textRed = wx.StaticText(pnlRed, -1, 'Red')
+        vboxRed = wx.BoxSizer(wx.VERTICAL)
+        vboxRed.Add(self.sldRed, 1, wx.CENTER)
+        vboxRed.Add(textRed, 1, wx.CENTER)
+        pnlRed.SetSizer(vboxRed)
+
+        #green button
+        pnlGreen = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
+        hboxcontrols.Add(pnlGreen, 1, wx.ALL | wx.EXPAND, 1)
+        self.sldGreen = wx.Slider(pnlGreen, -1, 0, 0, 255, wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
+        textGreen = wx.StaticText(pnlGreen, -1, 'Green')
+        vboxGreen = wx.BoxSizer(wx.VERTICAL)
+        vboxGreen.Add(self.sldGreen, 1, wx.CENTER)
+        vboxGreen.Add(textGreen, 1, wx.CENTER)
+        pnlGreen.SetSizer(vboxGreen)
+
+        #blue button
+        pnlBlue = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
+        hboxcontrols.Add(pnlBlue, 1, wx.ALL | wx.EXPAND, 1)
+        self.sldBlue = wx.Slider(pnlBlue, -1, 0, 0, 255, wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
+        textBlue = wx.StaticText(pnlBlue, -1, 'Blue')
+        vboxBlue = wx.BoxSizer(wx.VERTICAL)
+        vboxBlue.Add(self.sldBlue, 1, wx.CENTER)
+        vboxBlue.Add(textBlue, 1, wx.CENTER)
+        pnlBlue.SetSizer(vboxBlue)
         
         #buttons
         pnlButtons = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
@@ -115,9 +150,12 @@ class MyFrame(wx.Frame):
         self.positionList = wx.ListCtrl(self, -1, style=wx.LC_REPORT)
         self.positionList.InsertColumn(0, 'bowl')
         self.positionList.InsertColumn(1, 'bottom')
-        self.positionList.InsertColumn(3, 'middle')
-        self.positionList.InsertColumn(4, 'top')
-        self.positionList.InsertColumn(5, 'head')
+        self.positionList.InsertColumn(2, 'middle')
+        self.positionList.InsertColumn(3, 'top')
+        self.positionList.InsertColumn(4, 'head')
+        self.positionList.InsertColumn(5, 'red')
+        self.positionList.InsertColumn(6, 'green')
+        self.positionList.InsertColumn(7, 'blue')
         hboxlist.Add(self.positionList, 1, wx.EXPAND)
 
 
@@ -126,24 +164,35 @@ class MyFrame(wx.Frame):
 
     def OnPlay(self, event):
         count = self.positionList.GetItemCount()
-        list=[]
+        listMove = []
+        listLed = []
         for row in range(count):
-            list2 =[]
+            tmpListMove = []
             value = int(self.positionList.GetItem(row, 0).GetText())
-            list2.append(["bowl", value])
+            tmpListMove.append(["bowl", value])
             value = int(self.positionList.GetItem(row, 1).GetText())
-            list2.append(["bottom", value])
+            tmpListMove.append(["bottom", value])
             value = int(self.positionList.GetItem(row, 2).GetText())
-            list2.append(["mid", value])
+            tmpListMove.append(["mid", value])
             value = int(self.positionList.GetItem(row, 3).GetText())
-            list2.append(["top", value])
+            tmpListMove.append(["top", value])
             value = int(self.positionList.GetItem(row, 4).GetText())
-            list2.append(["head", value])
-            list.append(list2)
+            tmpListMove.append(["head", value])
+            listMove.append(tmpListMove)
+
+            tmpListLed = []
+            value = int(self.positionList.GetItem(row, 5).GetText())
+            tmpListLed.append(value)
+            value = int(self.positionList.GetItem(row, 6).GetText())
+            tmpListLed.append(value)
+            value = int(self.positionList.GetItem(row, 7).GetText())
+            tmpListLed.append(value)
+            listLed.append(tmpListLed)
 
         #thread for sequence of movement
-        self.play = PlayMove(self.motorController)
-        self.play.listMove(list)
+        self.play = PlayMove(self.motorController, self.ledController)
+        self.play.listMove(listMove)
+        self.play.listLed(listLed)
         self.play.start()
 
     def OnStop(self, event):
@@ -151,34 +200,39 @@ class MyFrame(wx.Frame):
         self.play.stop()
 
     def OnGoto(self, event):
-        list=[]
-        list.append(["bowl", self.sldBowl.GetValue()])
-        list.append(["bottom", self.sldBottom.GetValue()])
-        list.append(["mid", self.sldMiddle.GetValue()])
-        list.append(["top", self.sldTop.GetValue()])
-        list.append(["head", self.sldHead.GetValue()])
+
+        red = self.sldRed.GetValue()
+        green = self.sldGreen.GetValue()
+        blue = self.sldBlue.GetValue()
+        self.ledController.lightLed(red, green, blue)
+
+        listMove = []
+        listMove.append(["bowl", self.sldBowl.GetValue()])
+        listMove.append(["bottom", self.sldBottom.GetValue()])
+        listMove.append(["mid", self.sldMiddle.GetValue()])
+        listMove.append(["top", self.sldTop.GetValue()])
+        listMove.append(["head", self.sldHead.GetValue()])
         self.motorController.setAllSpeed(100)
-        self.motorController.setMotorsByName(list)
+        self.motorController.setMotorsByName(listMove)
 
     def OnSavePosition(self, event):
-        print "biscuit"
         num_positions = self.positionList.GetItemCount()
         self.positionList.InsertStringItem(num_positions, str(self.sldBowl.GetValue()))
         self.positionList.SetStringItem(num_positions, 1, str(self.sldBottom.GetValue()))
         self.positionList.SetStringItem(num_positions, 2, str(self.sldMiddle.GetValue()))
         self.positionList.SetStringItem(num_positions, 3, str(self.sldTop.GetValue()))
         self.positionList.SetStringItem(num_positions, 4, str(self.sldHead.GetValue()))
+        self.positionList.SetStringItem(num_positions, 5, str(self.sldRed.GetValue()))
+        self.positionList.SetStringItem(num_positions, 6, str(self.sldGreen.GetValue()))
+        self.positionList.SetStringItem(num_positions, 7, str(self.sldBlue.GetValue()))
 
     def OnDeletePosition(self, event):
-        print "framboise"
         while self.positionList.GetSelectedItemCount() != 0 :
             index = self.positionList.GetFirstSelected()
             self.positionList.DeleteItem(index)
 
 class MyApp(wx.App):
     def OnInit(self):
-        #wx.App.__init__(self)
-        #motorsConfig = [[0, 0, 100, "bowl"], [0, 9, 100, "bottom"], [1, 30, 100, "middle"], [2, 45, 1000, "top"], [3, 10, 400, "head"]]
         frame = MyFrame(None, -1, 'Pinokio alpha 0.1')
         frame.Show(True)
         frame.Centre()
@@ -190,27 +244,40 @@ def getValueList(l):
     res.append(move[1])
   return res
 
+#this class handle moves sequence, in a thread. So that GUI is not block when moves sequence is launched
 class PlayMove(threading.Thread):
-    def __init__(self, motorController):
+    def __init__(self, motorController, ledController):
         threading.Thread.__init__(self)
+        #init stop flog to false
         self.play = False
         self.stoplock = threading.Lock()
+
+        #initialize motor and led controller
         self.motorController = motorController
+        self.ledController = ledController
 
     def run(self):
+        #set the stop flag to true
         self.play = True
         index = 0
 
         #Go to initial position
         print self.moves[0]
         self.motorController.setMotorsByName(self.moves[0])
+
+        #set led color to initial color
+        currentLedColor=self.led[0]
+        self.ledController.lightLed(int(currentLedColor[0]), int(currentLedColor[1]), int(currentLedColor[2]))
+
+        #wait for the end of the move
         time.sleep(3)
         
         if len(self.moves) > 1 :
-
           traj = trajectoryController.TrajectoryController(100,40,len(self.moves[0]))
           traj.set(getValueList(self.moves[0]),getValueList(self.moves[1]))
+          #while stop button have not been pressed
           while self.play :
+            #if motors haven't reach the position
             if not traj.update():
               self.motorController.setAllSpeed(int(traj.speed))
               values = [["bowl",traj.position[0]],
@@ -219,20 +286,33 @@ class PlayMove(threading.Thread):
                         ["top",traj.position[3]],
                         ["head",traj.position[4]]]
               self.motorController.setMotorsByName(values)
+            #if motors are in final position
             else :
-              index = (index + 1) % len(self.moves)
-              traj.set(getValueList(self.moves[index]),getValueList(self.moves[(index + 1)%len(self.moves)]))
+                #increment index but keep it in list length
+                index = (index + 1) % len(self.moves)
+                #set a new trajectory between the current position and the next position
+                traj.set(getValueList(self.moves[index]), getValueList(self.moves[(index + 1) % len(self.moves)]))
+                #change led color
+                currentLedColor = self.led[index]
+                self.ledController.lightLed(currentLedColor[0], currentLedColor[1], currentLedColor[2])
+
               
 
     def stop(self):
         with self.stoplock:
+            #set stop flag to false
+            #moves sequence's stop and the thread can be deleted
             self.play = False
-            print "caramel2"
 
     def listMove(self, list):
         with self.stoplock:
+            #update list of moves
             self.moves = list
 
-motorsConfig = [[0, 0, 100, "bowl"], [0, 9, 100, "bottom"], [1, 30, 100, "mid"], [2, 45, 1000, "top"], [3, 10, 400, "head"]]
+    def listLed(self, list):
+        with self.stoplock:
+            #update list of colors
+            self.led = list
+
 app = MyApp(0)
 app.MainLoop()
