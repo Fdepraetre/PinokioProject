@@ -46,6 +46,11 @@ class FaceSearch:
       timeOut -= currentTime - lastTime
       lastTime = currentTime
 
+    if self.faceStream.isFaceDetected():
+      return True
+    else:
+      return False
+
 
   def __initMovement(self):
     """ Initialisation of value list and random trajectory  """
