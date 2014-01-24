@@ -314,5 +314,4 @@ class PlayMove(threading.Thread):
             #update list of colors
             self.led = list
 
-app = MyApp(0)
-app.MainLoop()
+
