@@ -36,7 +36,7 @@ modAngle = []
 
 # Start the serial communication with the Arduino Board
 #This path is only for Linux , window user you might change the path
-arduino = python2arduino.Arduino('/dev/ttyACM0')
+arduino = python2arduino.Arduino()
 
 
 exit = False
