@@ -12,11 +12,11 @@ import math
 class Motor:
 
   def __init__(self,motor,name,minAngle = 0,maxAngle = 300 ):
-    self.motor = motor
+    self.motor    = motor
     self.maxAngle = maxAngle
     self.minAngle = minAngle
-    self.valeur = 0
-    self.name = name
+    self.valeur   = 0
+    self.name     = name
 
   def setAngle(self,angle):
     """ Set the motor angle """
