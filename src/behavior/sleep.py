@@ -6,28 +6,64 @@ sys.path.insert(0,"../settings/")
 import settings
 sys.path.insert(0,"../arduino/")
 import python2arduino
+sys.path.insert(0,"../traj/")
+import trajectoryController
 import cv2
 #import behavior
 
+def valueList(name,position):
+  """ Concatenate two lists in one list of couple """
+  values = []
+  for i in range(len(name)):
+    values += [[name[i],position[i]]]
+  return values
 
-class Sleep:#(Behavior):
 
-  def __init__(self,motorControl):
-    self.motorControl = motorControl
-    self.initPosition = [0,150,130,50,207]
-    self.movementList = [50,113]
+
+class Sleep:
+
+  def __init__(self,motorController,arduino):
+    self.motorController = motorController
+    self.initPosition    = [160,125,113]
+    self.movementList    = [[125],[150]]
+    self.staticMotor     = ["bottom","bowl","mid","top"]
+    self.dynamicMotors   = ["head"]
+    self.arduino         = arduino
+    self.incrementVal    = True
+    self.val             = 0
+
+    self.traj = trajectoryController.TrajectoryController(100,20,1)
     self.index = 0
+    self.factLed = 0
 
   def activate(self):
-    self.motorControl.setMotorsByName([["bowl",self.initPosition[0]],["bottom",self.initPosition[1]],["middle",self.initPosition[2]],["top",self.initPosition[3]],["head",self.initPosition[4]]])
-
+    self.motorController.setMotorsByName([["mid",self.initPosition[0]],["top",self.initPosition[1]],["head",self.initPosition[2]]])
+    self.traj.set(self.movementList[self.index],self.movementList[(self.index+1)%(len(self.movementList))])
 
   def update(self):
-    self.motorControl.setMotorsByName([["top",self.movementList[self.index]]])
-    print self.index
-    self.index =(self.index+1)%(len(self.movementList))
+    res = self.traj.update()
+    if not res :
+      self.motorController.setAllSpeed(int(self.traj.speed)+20)
+      self.motorController.setMotorsByName([[self.dynamicMotors[0],self.traj.position[0]]])
+      if self.incrementVal  :
+          self.val += self.factLed
+          if self.val >= 255:
+            self.val = 254
+            self.incrementVal = False
+          self.arduino.lightLed(0,0,int(self.val))
+      else :
+          self.val -= self.factLed
+          if self.val <= 0:
+            self.val = 0
+            self.incrementVal = True
+          self.arduino.lightLed(0,0,int(self.val))
 
+    else :
+      self.traj.set(self.movementList[self.index],self.movementList[(self.index+1)%(len(self.movementList))])
+      self.index =(self.index+1)%(len(self.movementList))
+      self.factLed = 255 / self.traj.timef
 
+    return res
 
 if (__name__)=='__main__':
 

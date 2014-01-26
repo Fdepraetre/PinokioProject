@@ -18,15 +18,13 @@ import cv2
 #Initialisation of motor with detection 
 motorSettings = settings.MotorSettings()
 motorControler = motorControl.MotorControl(motorSettings.get())
-faceStream = FaceDetection.FaceStream(1)
+faceStream = FaceDetection.FaceStream(0)
 
 # Init Face detection 
 faceSearchBehavior = searchFaces.FaceSearch(motorControler,faceStream,15)
-# Start Face Search 
-faceSearchBehavior.start()
 
 arduino = python2arduino.Arduino()
-sleep = sleep.Sleep(motorControler)
+sleep = sleep.Sleep(motorControler,arduino)
 
 #Camera 
 precision = 0.1
@@ -42,13 +40,14 @@ camera = cameraControl.CameraControl(motorControler, faceStream, precision, res,
 exit = False
 
 
-state = "faceSearch"
+state = "sleep"
 
 # Set the light to red value on led circle
 arduino.redLight()
 
 while not exit :
   if state == "faceFollow" : 
+    print "start face Follow"
     # A face is detected
     motorControler.setAllSpeed(100)
     lastTime = time.time()
@@ -71,6 +70,7 @@ while not exit :
       camera.updateControl()
     state = "faceSearch"     
   elif state == "faceSearch" :
+    print "faceSearch"
     # Start searching faces
     arduino.redLight()
     detect = faceSearchBehavior.start()
@@ -80,10 +80,13 @@ while not exit :
       state = "sleep"
   elif state == "sleep" :
     # Start sleeping
+    print "start sleeping"
     arduino.blueLight()
     sleep.activate()
-    while state == "sleep":
+    while state == "sleep" :
+      frame =	faceStream.nextFrame()
       sleep.update()
-      key = cv2.waitKey(1000)
+      faceStream.display()
+      key = cv2.waitKey(10)
       if key == ord('f'):
         state = "faceSearch"
