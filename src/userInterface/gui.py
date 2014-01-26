@@ -14,15 +14,16 @@ import python2arduino
 class MyFrame(wx.Frame):
     def __init__(self, parent, id, title):
         wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition, (800, 600))
-        #panel = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
 
+        hbox= wx.BoxSizer(wx.HORIZONTAL)
         vbox = wx.BoxSizer(wx.VERTICAL)
         hboxcontrols = wx.BoxSizer(wx.HORIZONTAL)
         hboxlist = wx.BoxSizer(wx.HORIZONTAL)
 
-        vbox.Add(hboxcontrols)
+        vbox.Add(hboxcontrols, 1, wx.EXPAND)
         vbox.Add(hboxlist, 1, wx.EXPAND)
 
+        #comment load motor and load led when working on gui
         #load motor
         motorSettings = settings.MotorSettings().get()
         self.motorController = motorControl.MotorControl(motorSettings)
@@ -33,13 +34,13 @@ class MyFrame(wx.Frame):
         for motor in motorsConfig:
             motors[motor[3]] = [motor[1], motor[2]]
 
-        #load led
-        self.ledController = python2arduino.Arduino()
-        
+        #uncomment when working on gui
+        #motors = {"bowl": [0, 150], "bottom": [0, 150], "mid": [0, 150], "top": [0, 150], "head": [0, 150]}
+
         #visual element
 
         #bowl button
-        pnlBowl = wx.Panel(self, -1, size=(10,-1), style=wx.SIMPLE_BORDER)
+        pnlBowl = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
         hboxcontrols.Add(pnlBowl, 1, wx.ALL |wx.EXPAND, 1)
         self.sldBowl = wx.Slider(pnlBowl, -1, motors["bowl"][0], motors["bowl"][0], motors["bowl"][1], wx.DefaultPosition, (-1, -1), wx.SL_VERTICAL | wx.SL_LABELS)
         textBowl = wx.StaticText(pnlBowl, -1, 'Bowl')
@@ -117,21 +118,21 @@ class MyFrame(wx.Frame):
         vboxBlue.Add(self.sldBlue, 1, wx.CENTER)
         vboxBlue.Add(textBlue, 1, wx.CENTER)
         pnlBlue.SetSizer(vboxBlue)
-        
+
+
         #buttons
         pnlButtons = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
-        hboxcontrols.Add(pnlButtons, 1, wx.EXPAND | wx.ALL, 1)
         vboxButton = wx.BoxSizer(wx.VERTICAL)
         
         gotoButton = wx.Button(pnlButtons, 7, 'Go To')
         vboxButton.Add(gotoButton, 1, wx.ALIGN_CENTER | wx.TOP, 15)
         wx.EVT_BUTTON(self, 7, self.OnGoto)
 
-        savePositionButton = wx.Button(pnlButtons, 8, 'Save position to list')
+        savePositionButton = wx.Button(pnlButtons, 8, 'Save to list')
         vboxButton.Add(savePositionButton, 1, wx.ALIGN_CENTER | wx.TOP, 15)
         wx.EVT_BUTTON(self, 8, self.OnSavePosition)
 
-        deletePositionButton = wx.Button(pnlButtons, 9, 'delete position from list')
+        deletePositionButton = wx.Button(pnlButtons, 9, 'Delete from list')
         vboxButton.Add(deletePositionButton, 1, wx.ALIGN_CENTER | wx.TOP, 15)
         wx.EVT_BUTTON(self, 9, self.OnDeletePosition)
 
@@ -157,9 +158,12 @@ class MyFrame(wx.Frame):
         self.positionList.InsertColumn(7, 'blue')
         hboxlist.Add(self.positionList, 1, wx.EXPAND)
 
+        hbox.Add(vbox, 5, wx.EXPAND | wx.ALL, 1)
+        hbox.Add(pnlButtons, 1, wx.EXPAND | wx.ALL, 1)
+        self.SetSize((800, 600))
+        self.SetSizer(hbox)
+        self.Centre()
 
-        #panel.SetSizer(vbox)
-        self.SetSizer(vbox)
 
     def OnPlay(self, event):
         count = self.positionList.GetItemCount()
@@ -261,7 +265,7 @@ class PlayMove(threading.Thread):
         index = 0
 
         #Go to initial position
-        print self.moves[0]
+        #print self.moves[0]
         self.motorController.setMotorsByName(self.moves[0])
 
         #set led color to initial color
