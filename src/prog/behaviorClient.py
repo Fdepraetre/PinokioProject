@@ -18,10 +18,10 @@ import cv2
 #Initialisation of motor with detection 
 motorSettings = settings.MotorSettings()
 motorControler = motorControl.MotorControl(motorSettings.get())
-faceStream = FaceDetection.FaceStream(0)
+faceStream = FaceDetection.FaceStream(1)
 
 # Init Face detection 
-faceSearchBehavior = searchFaces.FaceSearch(motorControler,faceStream,15)
+faceSearchBehavior = searchFaces.FaceSearch(motorControler,faceStream,20)
 
 arduino = python2arduino.Arduino()
 sleep = sleep.Sleep(motorControler,arduino)
@@ -81,7 +81,6 @@ while not exit :
   elif state == "sleep" :
     # Start sleeping
     print "start sleeping"
-    arduino.blueLight()
     sleep.activate()
     while state == "sleep" :
       frame =	faceStream.nextFrame()

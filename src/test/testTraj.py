@@ -14,7 +14,7 @@ import select
 # concerned by the trajectory
 initPosition = [125,75,60]
 motorName = ["head","top","bowl"]
-finalPosition = [175,190,120]
+finalPosition = [175,135,120]
 
 
 def valueList(name,position):
@@ -25,7 +25,7 @@ def valueList(name,position):
   return values
 
 # Set the trajectory controller with a max speed equal to 1000 and a max acceleration to 200
-trajectoryController = trajectoryController.TrajectoryController(1000,200)
+trajectoryController = trajectoryController.TrajectoryController(1000,400)
 # Init the plotter to trajectory in 3 dimensions
 trajectoryPlot = trajPlot.PlotTraj()
 i = 0

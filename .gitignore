@@ -1,3 +1,4 @@
 *.pyc
 *.ods
 **/.idea/
+*.pdf

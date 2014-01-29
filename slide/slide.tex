@@ -1,0 +1,40 @@
+\documentclass[handout]{beamer}
+ 
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[footheight=1em]{beamerthemeboxes}
+\usepackage{graphics}
+\usepackage{graphicx}
+ 
+\usetheme{Warsaw}
+
+
+
+\title[Projet Pinokio ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \insertframenumber/\inserttotalframenumber]{Projet Pinokio}
+\author[F. Depraetre, T. Lambert, R. Sagean]{Fabien Depraetre, Thibaud Lambert, Romain Sagean}
+\institute{}
+\begin{document}
+
+	%% Title Page %%
+	\begin{frame}
+		\titlepage
+	\end{frame}
+
+	%% Plan %%
+	\begin{frame}
+		\frametitle{Plan}
+		\tableofcontents[hideallsubsections]
+	\end{frame}
+
+  \input{construction.tex}
+
+  \input{controle.tex}
+
+  \input{reconnaissance.tex}
+
+  \input{comportement.tex}
+
+  \input{conclusion.tex}
+
+\end{document}

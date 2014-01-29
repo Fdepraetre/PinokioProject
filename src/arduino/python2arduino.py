@@ -31,6 +31,8 @@ class Arduino:
     self.lightLed(0, 0, 255)
 
   def fadeLed(self, color, period):
+    """ color = first char of color's name """
+    """ Period is in ms """
     self.ser.writelines('f'+color+str(chr(period/100))+'\n')
 
 
