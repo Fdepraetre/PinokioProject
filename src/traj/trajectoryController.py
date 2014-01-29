@@ -25,7 +25,6 @@ class TrajectoryController:
     Dj2          = 2 * np.sqrt(Dj/ self.accMax)
     Dj           = 2 * Dj / self.speedMax
     self.timef   = max(Dj,Dj2)
-#    self.timef  += timeInit
 
     # q(t) = qi + A *D * t^2
 
