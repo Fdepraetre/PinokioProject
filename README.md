@@ -10,9 +10,9 @@ Python library
 
 [Python serial library](http://pypi.python.org/pypi/pyserial)
 
-WXpython
+[WXpython](http://wxpython.org/)
 
-Numpy
+[Numpy](http://www.numpy.org/)
 
-matplotpy
+[Matplotlib](http://matplotlib.org)
 
