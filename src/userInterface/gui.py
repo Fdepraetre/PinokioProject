@@ -34,11 +34,14 @@ class MyFrame(wx.Frame):
         for motor in motorsConfig:
             motors[motor[3]] = [motor[1], motor[2]]
 
+        #load led
+        self.ledController = python2arduino.Arduino()
+
         #uncomment when working on gui
         #motors = {"bowl": [0, 150], "bottom": [0, 150], "mid": [0, 150], "top": [0, 150], "head": [0, 150]}
 
         #visual element
-
+  
         #bowl button
         pnlBowl = wx.Panel(self, -1, style=wx.SIMPLE_BORDER)
         hboxcontrols.Add(pnlBowl, 1, wx.ALL |wx.EXPAND, 1)
