@@ -14,6 +14,7 @@ sys.path.insert(0, "../arduino/")
 import python2arduino
 import cv2
 
+arduino = python2arduino.Arduino()
 
 #Initialisation of motor with detection 
 motorSettings = settings.MotorSettings()
@@ -23,7 +24,6 @@ faceStream = FaceDetection.FaceStream(1)
 # Init Face detection 
 faceSearchBehavior = searchFaces.FaceSearch(motorControler,faceStream,20)
 
-arduino = python2arduino.Arduino()
 sleep = sleep.Sleep(motorControler,arduino)
 
 #Camera 
