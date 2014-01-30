@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale = 0.5]
+ \tikzset{directed/.style={<-}} 
+  \node[draw,circle, very thick] (Sleep) at (0,8) {Endormi};
+  \node[draw,circle, very thick] (FaceSearch) at (0,4) {Recherche};
+  \node[draw,circle, very thick] (FaceFollow) at (0,-2) {Suivi visage};
+  \draw[->,>=latex] (Sleep) to[bend right] (FaceSearch);
+  \draw[->,>=latex] (FaceSearch) to[bend right] (FaceFollow);
+  \draw[->,>=latex] (FaceSearch) to[bend right] (Sleep);
+  \draw[->,>=latex] (FaceFollow) to[bend right] (FaceSearch);
+
+
+
+
+
+\end{tikzpicture}
