@@ -19,6 +19,8 @@ Python library
 
 [Matplotlib](http://matplotlib.org)
 
+[PyYAML](http://pyyaml.org/)
+
 
 windows installation
 --------------------
@@ -28,4 +30,5 @@ if you are under windows you need a 32bit version of python 2.7. You also need t
 * pyparsing
 * six
 * pytz
+
 [link to download python library for windows](http://www.lfd.uci.edu/~gohlke/pythonlibs/)
