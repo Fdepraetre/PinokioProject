@@ -5,8 +5,9 @@ all: $(PDF)
 
 SRC=$(wildcard *.tex)
 IMG=$(wildcard image/*.png) 
+TIKZ=$(wildcard image/*.tex) 
 
-slide.pdf: slide.tex $(IMG) $(SRC)
+slide.pdf: slide.tex $(IMG) $(SRC) $(TIKZ)
 	$(TEX) $<
 	$(TEX) $<
 	rm *.aux *.log *.toc *.out *.nav *.snm
