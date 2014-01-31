@@ -2,7 +2,7 @@
 \subsection{Présentation des moteurs}
 \begin{frame}
   \frametitle{Présentation des moteurs}
-  \begin{columns}[T]
+  \begin{columns}[c]
     \begin{column}{.65\textwidth}
            \begin{itemize}
             \item Moteurs utilisés 
@@ -14,12 +14,12 @@
             \begin{itemize}
               \item Bus TTL , une sortie pour tous les moteurs
               \item Communication par bus UART
-              \item Gestion de moteur indépendamment ou global
+              \item Gestion de moteur indépendamment ou globalement
             \end{itemize}
           \item Inconvénient:
             \begin{itemize}
               \item Les AX-12 n'ont pas assez de couple
-              \item Contrôle PID intégré réglé sans charge
+              \item Contrôle PID intégré et réglé sans charge
               \item Moteur pas à pas
             \end{itemize}
           \end{itemize}
@@ -37,7 +37,7 @@
 \subsection{Configuration et Interface}
 \begin{frame}
   \frametitle{Configuration et Interface}
-  \begin{columns}[T]
+  \begin{columns}[c]
     \begin{column}{.4\textwidth}
       \begin{itemize}
         \item Configuration
@@ -45,7 +45,7 @@
             \item Utilisation de yaml
             \item Port, baudrate, angle limite
           \end{itemize}
-        \item Interface Utilisateur
+        \item Interfaces Utilisateurs
           \begin{itemize}
             \item En ligne de commande
             \item Graphique
@@ -65,7 +65,7 @@
   \frametitle{Génération de trajectoire}
             \begin{figure}
                 \begin{center}
-                    \includegraphics[width=11cm]{../img/TrajectoryPlot.png}
+                    \includegraphics[width=10cm]{../img/TrajectoryPlot.png}
                 \end{center}
                 \caption{Exemple de génération de trajectoire}
             \end{figure}
